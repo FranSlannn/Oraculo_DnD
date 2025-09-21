@@ -1,34 +1,41 @@
-// Módulo Encuentros
 function generateEncounter() {
+    logger('encounters', 'generateEncounter', 'Iniciando generación de encuentro');
     const location = document.getElementById('encounter-location').value;
     const time = document.getElementById('encounter-time').value;
     const cr = parseFloat(document.getElementById('encounter-cr').value);
+    logger('encounters', 'generateEncounter', `Parámetros: location=${location}, time=${time}, cr=${cr}`, { location, time, cr });
 
     // Intentar encontrar monstruo por CR
     const monsterNames = Object.keys(window.monsters || {});
     const matchingMonsters = monsterNames.filter(name => window.monsters[name].challenge_rating === cr);
+    logger('encounters', 'generateEncounter', `Monstruos encontrados por CR: ${matchingMonsters.length}`);
 
     let encounter;
     if (matchingMonsters.length > 0) {
         const monster = getRandomElement(matchingMonsters);
         encounter = `Encuentro con ${window.monsters[monster].name} (CR ${cr}) en ${location} (${time}).`;
+        logger('encounters', 'generateEncounter', `Encuentro generado con monstruo: ${window.monsters[monster].name}`);
     } else {
         // Usar tabla de encuentros
         const encounters = encounterTables[location][time];
         encounter = `Encuentro en ${location} (${time}): ${getRandomElement(encounters)}`;
+        logger('encounters', 'generateEncounter', `Encuentro generado desde tabla: ${encounter}`);
     }
 
     displayResult('encounters', encounter);
     addToHistory('encounters', encounter);
+    logger('encounters', 'generateEncounter', 'Encuentro generado y mostrado');
 }
 
 function clearEncounters() {
+    logger('encounters', 'clearEncounters', 'Iniciando limpieza del historial y resultados de encuentros');
     const history = document.getElementById('encounter-history');
     if (history) history.innerHTML = '<div class="history-title">Historial de Encuentros</div>';
     const result = document.getElementById('encounter-result');
     if (result) result.textContent = '';
     const allyCard = document.getElementById('ally-card-container');
     if (allyCard) allyCard.style.display = 'none';
+    logger('encounters', 'clearEncounters', 'Limpieza completada');
 }
 
 // Constantes para NPCs
@@ -44,15 +51,19 @@ const allyNames = [
 const safeRandom = (arr) => Array.isArray(arr) && arr.length ? arr[Math.floor(Math.random() * arr.length)] : '';
 
 function generateNpc() {
+    logger('encounters', 'generateNpc', 'Iniciando generación de NPC');
     const complexity = 'detailed'; // o random, pero usar detailed
     let res = "";
     res = `${safeRandom(npcRaces)} ${safeRandom(npcClasses)}, ${safeRandom(npcTraits)}, Objetivo: ${safeRandom(npcGoals)}`;
+    logger('encounters', 'generateNpc', `NPC generado: ${res}`);
     const el = document.getElementById('encounter-result');
     if (el) el.textContent = res;
     addToHistory('encounters', res);
+    logger('encounters', 'generateNpc', 'NPC mostrado y agregado al historial');
 }
 
 function generateVillain() {
+    logger('encounters', 'generateVillain', 'Iniciando generación de villano');
     const goals = [
         "Poder", "Venganza", "Riqueza", "Destrucción", "Conquista", "Corrupción",
         "Dominación", "Caos", "Inmortalidad", "Traición", "Odio", "Control Mental",
@@ -64,12 +75,15 @@ function generateVillain() {
         "Vanidad", "Lujuria", "Envidia", "Gula", "Prejuicio", "Debilidad Física"
     ];
     const res = `Villano: ${safeRandom(npcRaces)} ${safeRandom(npcClasses)}, Motivo: ${safeRandom(goals)}, Debilidad: ${safeRandom(flaws)}`;
+    logger('encounters', 'generateVillain', `Villano generado: ${res}`);
     const el = document.getElementById('encounter-result');
     if (el) el.textContent = res;
     addToHistory('encounters', res);
+    logger('encounters', 'generateVillain', 'Villano mostrado y agregado al historial');
 }
 
 function generateAlly() {
+    logger('encounters', 'generateAlly', 'Iniciando generación de aliado');
     const skills = ["Combate", "Magia", "Sigilo", "Conocimiento", "Curación", "Persuasión"];
     const race = safeRandom(npcRaces);
     const className = safeRandom(npcClasses);
@@ -98,6 +112,7 @@ function generateAlly() {
     };
 
     const res = `Aliado: ${race} ${className}, Habilidad: ${skill}, Rasgo: ${trait}`;
+    logger('encounters', 'generateAlly', `Aliado generado: ${randomName}, ${race} ${className}`);
     document.getElementById('encounter-result').textContent = res;
     addToHistory('encounters', res);
 
@@ -106,6 +121,7 @@ function generateAlly() {
         allyCard.style.display = 'block';
         generateAllyCard(window.ally);
     }
+    logger('encounters', 'generateAlly', 'Aliado generado y mostrado');
 }
 
 // Funciones auxiliares para aliado
@@ -246,17 +262,24 @@ function useClassSkill(skill, level) {
 
 function generateAllyCard(allyData) {
     const card = document.getElementById('ally-card-container');
-    card.querySelector('.ally-name').innerHTML = `<i class="fas fa-user-friends"></i> ${allyData.name}`;
+    card.querySelector('.ally-name').innerHTML = `<i class="fas fa-user-shield"></i> ${allyData.name}`;
     card.querySelector('.ally-type').textContent = `${allyData.type} • ${allyData.role} • Nivel ${allyData.level}`;
 
-    const conMod = parseInt(allyData.stats.CON.split('+')[1]) || 0;
+    const conMod = parseInt((allyData.stats.CON || "10 (+0)").split('+')[1]) || 0;
+    logger('encounters', 'generateAllyCard', `conMod: ${conMod}, level: ${allyData.level}, type: ${allyData.type}`);
     const hp = calculateHitPoints(allyData.level, conMod, allyData.type);
+    logger('encounters', 'generateAllyCard', `HP calculado: ${hp}`);
     const primaryStat = getPrimaryStat(allyData.role);
-    const mainAbilityMod = parseInt(allyData.stats[primaryStat].split('+')[1]) || 0;
+    const mainAbilityMod = parseInt((allyData.stats[primaryStat] || "10 (+0)").split('+')[1]) || 0;
+    logger('encounters', 'generateAllyCard', `primaryStat: ${primaryStat}, mainAbilityMod: ${mainAbilityMod}`);
     const attackBonus = calculateAttackBonus(mainAbilityMod, allyData.level);
+    logger('encounters', 'generateAllyCard', `attackBonus: ${attackBonus}`);
     const savingThrows = calculateSavingThrows(allyData.stats, allyData.level);
-    const charismaMod = parseInt(allyData.stats.CAR.split('+')[1]) || 0;
+    logger('encounters', 'generateAllyCard', `savingThrows: ${JSON.stringify(savingThrows)}`);
+    const charismaMod = parseInt((allyData.stats.CAR || "10 (+0)").split('+')[1]) || 0;
+    logger('encounters', 'generateAllyCard', `charismaMod: ${charismaMod}`);
     const loyalty = getLoyalty(charismaMod, allyData.role);
+    logger('encounters', 'generateAllyCard', `loyalty: ${loyalty}`);
     const inventory = generateInventory(allyData.type, allyData.role);
     const specialAction = generateSpecialAction(allyData.traits, allyData.level);
     const classSkills = generateClassSkills(allyData.role);
@@ -433,16 +456,21 @@ window.loadAlly = function() {
 };
 
 function generateMonster() {
+    logger('encounters', 'generateMonster', 'Iniciando generación de monstruo');
+    logger('encounters', 'generateMonster', `window.monsters definido: ${!!window.monsters}, keys: ${window.monsters ? Object.keys(window.monsters).length : 'undefined'}`);
     if (!window.monsters) {
+        logger('encounters', 'generateMonster', 'Cargando datos de monstruos desde monsters.json');
         displayResult('encounters', 'Loading monsters data...');
         fetch('monsters.json')
             .then(response => response.json())
             .then(data => {
                 window.monsters = data;
+                logger('encounters', 'generateMonster', 'Datos de monstruos cargados, reintentando generación');
                 generateMonster(); // retry
             })
             .catch(error => {
                 console.error('Error loading monsters:', error);
+                logger('encounters', 'generateMonster', `Error cargando monstruos: ${error.message}`);
                 displayResult('encounters', 'Error loading monsters data.');
             });
         return;
@@ -452,6 +480,7 @@ function generateMonster() {
     const monster = window.monsters[monsterName];
 
     const res = `Monstruo: ${monster.name} (${monster.meta})`;
+    logger('encounters', 'generateMonster', `Monstruo generado: ${monster.name}`);
     document.getElementById('encounter-result').textContent = res;
     addToHistory('encounters', res);
 
@@ -460,6 +489,7 @@ function generateMonster() {
         monsterCard.style.display = 'block';
         generateMonsterCard(monster);
     }
+    logger('encounters', 'generateMonster', 'Monstruo generado y mostrado');
 }
 
 function generateMonsterCard(monster) {
@@ -467,11 +497,11 @@ function generateMonsterCard(monster) {
     card.querySelector('.monster-name').innerHTML = `<i class="fas fa-dragon"></i> ${monster.name}`;
     card.querySelector('.monster-meta').innerHTML = `<i class="fas fa-info-circle"></i> ${monster.meta}`;
 
-    let stats = `<i class="fas fa-shield-alt"></i> <strong>Armor Class:</strong> ${monster['Armor Class']}<br>`;
-    stats += `<i class="fas fa-heart"></i> <strong>Hit Points:</strong> ${monster['Hit Points']}<br>`;
-    stats += `<i class="fas fa-running"></i> <strong>Speed:</strong> ${monster['Speed']}<br>`;
-    stats += `<i class="fas fa-dumbbell"></i> <strong>STR:</strong> ${monster['STR']} <i class="fas fa-dumbbell"></i> <strong>DEX:</strong> ${monster['DEX']} <i class="fas fa-dumbbell"></i> <strong>CON:</strong> ${monster['CON']}<br>`;
-    stats += `<i class="fas fa-brain"></i> <strong>INT:</strong> ${monster['INT']} <i class="fas fa-brain"></i> <strong>WIS:</strong> ${monster['WIS']} <i class="fas fa-brain"></i> <strong>CHA:</strong> ${monster['CHA']}<br>`;
+    let stats = `<i class="fas fa-shield-alt"></i> <strong>Armor Class:</strong> ${monster['Armor Class'] || 'N/A'}<br>`;
+    stats += `<i class="fas fa-heart"></i> <strong>Hit Points:</strong> ${monster['Hit Points'] || 'N/A'}<br>`;
+    stats += `<i class="fas fa-running"></i> <strong>Speed:</strong> ${monster['Speed'] || 'N/A'}<br>`;
+    stats += `<i class="fas fa-dumbbell"></i> <strong>STR:</strong> ${monster['STR'] || 'N/A'} <i class="fas fa-dumbbell"></i> <strong>DEX:</strong> ${monster['DEX'] || 'N/A'} <i class="fas fa-dumbbell"></i> <strong>CON:</strong> ${monster['CON'] || 'N/A'}<br>`;
+    stats += `<i class="fas fa-brain"></i> <strong>INT:</strong> ${monster['INT'] || 'N/A'} <i class="fas fa-brain"></i> <strong>WIS:</strong> ${monster['WIS'] || 'N/A'} <i class="fas fa-brain"></i> <strong>CHA:</strong> ${monster['CHA'] || 'N/A'}<br>`;
     if (monster['Saving Throws']) stats += `<i class="fas fa-save"></i> <strong>Saving Throws:</strong> ${monster['Saving Throws']}<br>`;
     if (monster['Skills']) stats += `<i class="fas fa-tools"></i> <strong>Skills:</strong> ${monster['Skills']}<br>`;
     if (monster['Damage Resistances']) stats += `<i class="fas fa-shield-virus"></i> <strong>Damage Resistances:</strong> ${monster['Damage Resistances']}<br>`;
@@ -479,19 +509,19 @@ function generateMonsterCard(monster) {
     if (monster['Condition Immunities']) stats += `<i class="fas fa-shield-alt"></i> <strong>Condition Immunities:</strong> ${monster['Condition Immunities']}<br>`;
     if (monster['Senses']) stats += `<i class="fas fa-eye"></i> <strong>Senses:</strong> ${monster['Senses']}<br>`;
     if (monster['Languages']) stats += `<i class="fas fa-comments"></i> <strong>Languages:</strong> ${monster['Languages']}<br>`;
-    stats += `<i class="fas fa-star"></i> <strong>Challenge:</strong> ${monster['Challenge']}`;
+    stats += `<i class="fas fa-star"></i> <strong>Challenge:</strong> ${monster['Challenge'] || 'N/A'}`;
 
     card.querySelector('.monster-stats').innerHTML = stats;
 
     let traits = '';
-    if (monster['Traits']) {
-        traits = monster['Traits'].map(t => `<i class="fas fa-star"></i> <strong>${t.name}:</strong> ${t.description}`).join('<br>');
+    if (monster['Traits'] && Array.isArray(monster['Traits'])) {
+        traits = monster['Traits'].map(t => `<i class="fas fa-star"></i> <strong>${t.name || 'Trait'}:</strong> ${t.description || 'N/A'}`).join('<br>');
     }
     card.querySelector('.monster-traits').innerHTML = traits;
 
     let actions = '';
-    if (monster['Actions']) {
-        actions = monster['Actions'].map(a => `<i class="fas fa-sword"></i> <strong>${a.name}:</strong> ${a.description}`).join('<br>');
+    if (monster['Actions'] && Array.isArray(monster['Actions'])) {
+        actions = monster['Actions'].map(a => `<i class="fas fa-sword"></i> <strong>${a.name || 'Action'}:</strong> ${a.description || 'N/A'}`).join('<br>');
     }
     card.querySelector('.monster-actions').innerHTML = actions;
 }

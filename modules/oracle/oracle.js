@@ -1,8 +1,10 @@
 // Módulo Oráculo
 function askOracle() {
+    logger('oracle', 'askOracle', 'Iniciando consulta al oráculo');
     const question = document.getElementById('oracle-question').value.trim();
     const type = document.getElementById('oracle-type').value;
     if (!question) {
+        logger('oracle', 'askOracle', 'Pregunta vacía, mostrando mensaje de error');
         displayResult('oracle', 'Por favor, haz una pregunta.');
         return;
     }
@@ -23,14 +25,19 @@ function askOracle() {
     const result = `Pregunta: ${question}<br>Respuesta del Oráculo (${type}): ${answer}`;
     displayResult('oracle', result);
     addToHistory('oracle', result);
+    logger('oracle', 'askOracle', `Respuesta generada: ${answer}`);
 }
 
 // Función auxiliar para elemento aleatorio
 function getRandomElement(array) {
-    return array[Math.floor(rng() * array.length)];
+    logger('oracle', 'getRandomElement', `Seleccionando elemento aleatorio de array de longitud ${array.length}`);
+    const element = array[Math.floor(rng() * array.length)];
+    logger('oracle', 'getRandomElement', `Elemento seleccionado: ${element}`);
+    return element;
 }
 
 function clearOracle() {
+    logger('oracle', 'clearOracle', 'Iniciando limpieza del historial y campos del oráculo');
     const history = document.getElementById('oracle-history');
     if (history) {
         const exportBtn = history.querySelector('button[onclick*="exportHistory"]');
@@ -42,4 +49,5 @@ function clearOracle() {
     if (result) result.textContent = '';
     const question = document.getElementById('oracle-question');
     if (question) question.value = '';
+    logger('oracle', 'clearOracle', 'Limpieza completada');
 }

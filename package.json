@@ -2,15 +2,20 @@
   "name": "dnd-solitario",
   "version": "1.0.0",
   "description": "Herramienta para D&D en solitario con oráculos y generadores",
+  "type": "module",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
-    "build": "electron-forge make"
+    "build": "electron-forge make",
+    "lint": "eslint . --ext .js",
+    "auto-commit": "git add . && git diff --cached --quiet || git commit -m \"Auto commit: significant changes\"",
+    "backup": "git archive --format=zip --output=backup-%date:~-4,4%%date:~-10,2%%date:~-7,2%-%time:~0,2%%time:~3,2%.zip HEAD"
   },
   "author": "Tu Nombre",
   "license": "MIT",
   "devDependencies": {
     "@electron-forge/cli": "^7.9.0",
-    "electron": "^38.1.2"
+    "electron": "^38.1.2",
+    "eslint": "^9.36.0"
   }
 }

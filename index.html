@@ -76,6 +76,15 @@
         <div id="social" class="tab-content"></div>
     </div>
 
+    <!-- Panel de Logs -->
+    <div id="log-panel" class="log-panel minimized">
+        <div class="log-panel-header">
+            <span>Logs en Tiempo Real</span>
+            <button id="log-toggle" onclick="toggleLogPanel()">▼</button>
+        </div>
+        <div id="log-panel-content" class="log-panel-content"></div>
+    </div>
+
     <script>
         // Variables globales
         let monsters = {};
@@ -95,7 +104,8 @@
             const script = document.getElementById('monsters-data');
             if (script) {
                 try {
-                    monsters = JSON.parse(script.textContent);
+                    window.monsters = JSON.parse(script.textContent);
+                    console.log('Monsters loaded, keys:', Object.keys(window.monsters).length);
                 } catch (e) {
                     console.error('Error parsing monsters.json:', e);
                 }
@@ -117,6 +127,7 @@
         function preloadModules() {
             const modules = ['oracle', 'encounters', 'npcs', 'names', 'combat', 'narrative', 'rumors', 'dungeon', 'tension', 'items', 'weather', 'goals', 'journal', 'loot', 'inventory', 'character', 'stress', 'social'];
             modules.forEach(module => {
+                console.log('Intentando cargar módulo: ' + module);
                 try {
                     fetch(`modules/${module}/${module}.html`)
                         .then(response => {
@@ -235,6 +246,21 @@
                 a.download = `historial_${tab}.txt`;
                 a.click();
                 URL.revokeObjectURL(url);
+            }
+        }
+
+        // Función para alternar el panel de logs
+        function toggleLogPanel() {
+            const panel = document.getElementById('log-panel');
+            const button = document.getElementById('log-toggle');
+            if (panel.classList.contains('minimized')) {
+                panel.classList.remove('minimized');
+                panel.classList.add('maximized');
+                button.textContent = '▲';
+            } else {
+                panel.classList.remove('maximized');
+                panel.classList.add('minimized');
+                button.textContent = '▼';
             }
         }
     </script>

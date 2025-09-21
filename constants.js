@@ -701,3 +701,49 @@ const lootTables = {
   'very-rare': ["Poción de curación suprema (10d4+20, 5000 po)", "1000 piezas de oro", "Arma +3 (15000 po)", "Armadura mágica +2 (12000 po)", "Pergamino de hechizo de nivel 4 (1000 po)", "Gema de 500 po", "Varita de metamagia (15000 po)", "Capa de invisibilidad (20000 po)", "Anillo de regeneración (15000 po)", "Espada legendaria menor (15000 po)", "Báculo de poder medio (18000 po)", "Armadura de escamas de dragón (20000 po)", "Cuerno elemental (12000 po)", "Casco de visión omnidireccional (10000 po)", "Pergamino de control mental (5000 po)", "Anillo de resistencia doble (15000 po)", "Escudo antimagia (15000 po)", "Guantes de hechicería (8000 po)", "Tomo de sabiduría +2 (12000 po)", "Arma baneada +3 (18000 po)", "Cetro de mando (20000 po)", "Instrumento mágico poderoso (10000 po)", "Amuleto de viaje planar limitado (15000 po)", "Báculo de rayos múltiples (18000 po)", "Set de gemas raras (5000 po)"],
   legendary: ["Poción de vitalidad (10000 po)", "5000 piezas de oro", "Arma legendaria (25000+ po)", "Armadura legendaria (25000+ po)", "Pergamino de hechizo de nivel 5–9 (5000+ po)", "Gema de 1000 po", "Cetro del destino (artefacto)", "Anillo de los tres deseos (artefacto)", "Casco de los ancestros (artefacto)", "Armadura de dragón mayor (artefacto)", "Varita de tormenta eterna (artefacto)", "Pergamino de resurrección verdadera (artefacto)", "Capa de invisibilidad y vuelo (artefacto)", "Escudo que refleja conjuros (artefacto)", "Anillo de cambio de forma total (artefacto)", "Báculo de control absoluto (artefacto)", "Pergamino de invocación épica (artefacto)", "Gema de dragón ancestral (artefacto)", "Instrumento legendario de bardos (artefacto)", "Orbe de anulación mágica (artefacto)", "Corona de mando mundial (artefacto)", "Cetro de las estrellas (artefacto)", "Libro de los planos infinitos (artefacto)", "Lágrima de un dios (artefacto)", "Reliquia única ligada a la campaña"]
 };
+// =========================================================================
+// Función Logger Centralizada
+// =========================================================================
+// Registra módulo, función, timestamp y resultado para debugging.
+// Ahora también almacena logs en array global y actualiza UI.
+
+let logHistory = []; // Array global para almacenar logs
+
+function logger(module, functionName, result, params = null) {
+    const timestamp = new Date().toISOString();
+    const logEntry = {
+        timestamp: timestamp,
+        module: module,
+        functionName: functionName,
+        result: result,
+        params: params
+    };
+
+    // Agregar al array
+    logHistory.push(logEntry);
+
+    // Mantener solo los últimos 100 logs para no sobrecargar memoria
+    if (logHistory.length > 100) {
+        logHistory.shift();
+    }
+
+    // Log a consola
+    console.log(`[${timestamp}] [${module}] ${functionName}: ${result}`);
+
+    // Actualizar UI si existe
+    updateLogPanel(logEntry);
+}
+
+function updateLogPanel(logEntry) {
+    const logPanel = document.getElementById('log-panel-content');
+    if (logPanel) {
+        const logLine = document.createElement('div');
+        logLine.className = 'log-entry';
+        logLine.innerHTML = `<span class="log-timestamp">[${logEntry.timestamp}]</span> <span class="log-module">[${logEntry.module}]</span> <span class="log-function">${logEntry.functionName}:</span> <span class="log-result">${logEntry.result}</span>`;
+        if (logEntry.params) {
+            logLine.innerHTML += ` <span class="log-params">(params: ${JSON.stringify(logEntry.params)})</span>`;
+        }
+        logPanel.appendChild(logLine);
+        logPanel.scrollTop = logPanel.scrollHeight; // Auto-scroll al final
+    }
+}
