@@ -1,0 +1,26 @@
+<h2>Generador de Mazmorras</h2>
+<div class="controls">
+    <button onclick="generateRoom()">Generar Habitación</button>
+    <button onclick="generateTrap()">Generar Trampa</button>
+    <button onclick="generatePuzzle()">Generar Puzle</button>
+    <button onclick="clearDungeon()">Limpiar</button>
+    <br>
+    <select id="dungeon-size">
+        <option value="small">Pequeña (3x3)</option>
+        <option value="medium">Mediana (5x5)</option>
+        <option value="large">Grande (7x7)</option>
+    </select>
+    <button id="generate-dungeon">Generar Mazmorra</button>
+</div>
+<div id="dungeon-map"></div>
+<div id="dungeon-legend">
+    <div class="legend-cell" data-type="dungeon-room">Habitación (R)</div>
+    <div class="legend-cell" data-type="object">Objeto (O)</div>
+    <div class="legend-cell" data-type="puzzle">Puzle (P)</div>
+    <div class="legend-cell" data-type="trap">Trampa (T)</div>
+    <div class="legend-cell" data-type="empty">Vacío</div>
+</div>
+<div class="result" id="dungeon-result"></div>
+<div class="history" id="dungeon-history">
+    <div class="history-title">Historial de Mazmorra</div>
+</div>

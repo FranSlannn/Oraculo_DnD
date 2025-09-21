@@ -1,0 +1,98 @@
+<h2>Generador de Encuentros</h2>
+<div class="controls">
+    <select id="encounter-location">
+        <option value="urbano">Urbano</option>
+        <option value="bosque">Bosque</option>
+        <option value="montana">Montaña</option>
+        <option value="mazmorra">Mazmorra</option>
+        <option value="camino">Camino</option>
+        <option value="costa">Costa</option>
+    </select>
+    <select id="encounter-time">
+        <option value="day">Día</option>
+        <option value="night">Noche</option>
+    </select>
+    <select id="encounter-cr">
+        <option value="0.125">CR 1/8</option>
+        <option value="0.25">CR 1/4</option>
+        <option value="0.5">CR 1/2</option>
+        <option value="1">CR 1</option>
+        <option value="2">CR 2</option>
+        <option value="3">CR 3</option>
+        <option value="4">CR 4</option>
+        <option value="5">CR 5</option>
+        <option value="6">CR 6</option>
+        <option value="7">CR 7</option>
+        <option value="8">CR 8</option>
+        <option value="9">CR 9</option>
+        <option value="10">CR 10</option>
+        <option value="11">CR 11</option>
+        <option value="12">CR 12</option>
+        <option value="13">CR 13</option>
+        <option value="14">CR 14</option>
+        <option value="15">CR 15</option>
+        <option value="16">CR 16</option>
+        <option value="17">CR 17</option>
+        <option value="18">CR 18</option>
+        <option value="19">CR 19</option>
+        <option value="20">CR 20</option>
+        <option value="21">CR 21</option>
+        <option value="22">CR 22</option>
+        <option value="23">CR 23</option>
+        <option value="24">CR 24</option>
+        <option value="25">CR 25</option>
+        <option value="30">CR 30</option>
+    </select>
+    <button onclick="generateEncounter()">Generar Encuentro</button>
+    <button onclick="clearEncounters()">Limpiar</button>
+    <br>
+    <button onclick="generateNpc()">Generar NPC</button>
+    <button onclick="generateVillain()">Generar Villano</button>
+    <button onclick="generateAlly()">Generar Aliado</button>
+    <button onclick="generateMonster()">Generar Monstruo</button>
+</div>
+<div class="result" id="encounter-result"></div>
+<div id="ally-card-container" class="ally-card">
+    <div class="ally-name-container">
+        <div class="ally-name"></div>
+    </div>
+    <div class="ally-type"></div>
+    <div class="stats-highlight"></div>
+    <div class="stats-detail"></div>
+    <div class="narrative"></div>
+    <div class="section">
+        <div class="section-title">Habilidades</div>
+        <div class="section-content"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Habilidades de Clase</div>
+        <div class="section-content" id="class-skills-content"></div>
+        <div id="skill-buttons"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Rasgos</div>
+        <div class="section-content" id="traits-content"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Inventario</div>
+        <div class="section-content" id="inventory-content"></div>
+    </div>
+    <table class="stats-table"></table>
+    <div id="action-result"></div>
+    <div id="exp-result"></div>
+    <div id="dialogue-result"></div>
+    <button class="save-button" onclick="saveAlly()">Guardar Aliado</button>
+    <button class="load-button" onclick="loadAlly()">Cargar Aliado</button>
+</div>
+<div id="monster-card-container" class="monster-card">
+    <div class="monster-name-container">
+        <div class="monster-name"></div>
+    </div>
+    <div class="monster-meta"></div>
+    <div class="monster-stats"></div>
+    <div class="monster-traits"></div>
+    <div class="monster-actions"></div>
+</div>
+<div class="history" id="encounter-history">
+    <div class="history-title">Historial de Encuentros</div>
+</div>

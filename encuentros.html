@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de NPCs y Aliados</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="../../JS/constants.js"></script>
+  <link rel="stylesheet" href="css/encuentros.css">
+  <link rel="stylesheet" href="css/filters.css">
+  <link rel="stylesheet" href="css/monsterIO.css">
+  <link rel="stylesheet" href="css/monsters.css">
+  <link rel="stylesheet" href="css/ally-card.css">
+</head>
+<body>
+  <div class="npcs-module" id="npcs">
+    <h2>Generador de NPCs</h2>
+    <button class="complexity-btn" data-complexity="simple">Simple</button>
+    <button class="complexity-btn" data-complexity="detailed">Detallado</button>
+    <button class="complexity-btn" data-complexity="mission">Con Misión</button>
+    <br>
+    <button class="generate-btn" id="generate-npc">Generar NPC</button>
+    <button class="generate-btn" id="generate-villain">Generar Villano</button>
+    <button class="generate-btn" id="generate-ally">Generar Aliado</button>
+    <button class="generate-btn" id="clear">Limpiar</button>
+    <div id="npc-result"></div>
+    <div id="ally-card-container" class="ally-card">
+      <div class="ally-name-container">
+        <div class="ally-name"></div>
+      </div>
+      <div class="ally-type"></div>
+      <div class="stats-highlight"></div>
+      <div class="stats-detail"></div>
+      <div class="narrative"></div>
+      <div class="section">
+        <div class="section-title">Habilidades</div>
+        <div class="section-content"></div>
+      </div>
+      <div class="section">
+        <div class="section-title">Habilidades de Clase</div>
+        <div class="section-content" id="class-skills-content"></div>
+        <div id="skill-buttons"></div>
+      </div>
+      <div class="section">
+        <div class="section-title">Rasgos</div>
+        <div class="section-content" id="traits-content"></div>
+      </div>
+      <div class="section">
+        <div class="section-title">Inventario</div>
+        <div class="section-content" id="inventory-content"></div>
+      </div>
+      <table class="stats-table"></table>
+      <div id="action-result"></div>
+      <div id="exp-result"></div>
+      <div id="dialogue-result"></div>
+      <button class="save-button" onclick="saveAlly()">Guardar Aliado</button>
+      <button class="load-button" onclick="loadAlly()">Cargar Aliado</button>
+    </div>
+    <div id="npc-history">
+      <div class="history-title">Historial de NPCs</div>
+    </div>
+  </div>
+
+  <script src="encuentros.js"></script>
+</body>
+</html>

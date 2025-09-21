@@ -1,0 +1,21 @@
+<h2>Inventario</h2>
+<div class="controls">
+    <div>
+        <label>Oro: <span id="gold-amount">0</span></label>
+        <input type="number" id="add-gold" placeholder="Añadir oro">
+        <button onclick="addGold()">Añadir Oro</button>
+    </div>
+    <div>
+        <input type="text" id="item-name" placeholder="Nombre del ítem">
+        <input type="number" id="item-weight" placeholder="Peso (kg)">
+        <button onclick="addItem()">Añadir Ítem</button>
+    </div>
+</div>
+<div class="result">
+    <h3>Ítems</h3>
+    <ul id="inventory-list"></ul>
+    <p>Peso Total: <span id="total-weight">0</span> kg</p>
+</div>
+<div class="history" id="inventory-history">
+    <div class="history-title">Historial de Inventario</div>
+</div>

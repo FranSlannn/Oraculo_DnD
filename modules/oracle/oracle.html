@@ -1,0 +1,16 @@
+<h2>Oráculo</h2>
+<div class="controls">
+    <input type="text" id="oracle-question" placeholder="Haz una pregunta..." style="width: 70%; padding: 8px;">
+    <select id="oracle-type">
+        <option value="simple">Simple</option>
+        <option value="detailed">Detallado</option>
+        <option value="mythic">Mythic</option>
+    </select>
+    <button onclick="askOracle()">Preguntar al Oráculo</button>
+</div>
+<div class="result" id="oracle-result"></div>
+<div class="history" id="oracle-history">
+    <div class="history-title">Historial de Oráculo</div>
+    <button onclick="exportHistory('oracle')" title="Exportar historial como archivo de texto">Exportar</button>
+    <button onclick="clearOracle()">Limpiar</button>
+</div>

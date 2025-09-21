@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Solitario - Oráculos y Generadores</title>
+    <link rel="stylesheet" href="lib/all.min.css">
+    <link rel="stylesheet" href="StyleIndex.css">
+    <script src="lib/seedrandom.min.js"></script>
+    <script src="constants.js"></script>
+    <script src="monsters.json" type="application/json" id="monsters-data"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>D&D Solitario - Oráculos y Generadores</h1>
+
+        <!-- Controles Globales -->
+        <div class="controls">
+            <div id="plot-points">
+                <label>Puntos de Trama: <span id="plot-count">0</span></label>
+                <button onclick="usePlotPoint()" title="Usa un punto de trama para un giro positivo en la historia">Usar Punto</button>
+            </div>
+            <div id="seed-control">
+                <label>Semilla: <input type="text" id="seed-input" placeholder="Ingresa semilla"></label>
+                <button onclick="setSeed()" title="Establece una semilla para resultados reproducibles">Establecer</button>
+            </div>
+            <div id="notes-control">
+                <label>Notas Rápidas: <textarea id="quick-notes" placeholder="Notas..."></textarea></label>
+                <button onclick="saveNotes()" title="Guarda notas rápidas en el navegador">Guardar</button>
+            </div>
+            <div>
+                <button onclick="clearCache()" title="Borra todos los datos guardados">Limpiar Caché</button>
+            </div>
+        </div>
+
+        <!-- Sistema de Pestañas -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('oracle', this)">Oráculo</button>
+            <button class="tab-button" onclick="openTab('encounters', this)">Encuentros</button>
+            <button class="tab-button" onclick="openTab('npcs', this)">PNJs</button>
+            <button class="tab-button" onclick="openTab('names', this)">Nombres</button>
+            <button class="tab-button" onclick="openTab('combat', this)">Combate</button>
+            <button class="tab-button" onclick="openTab('narrative', this)">Narrativa</button>
+            <button class="tab-button" onclick="openTab('rumors', this)">Rumores</button>
+            <button class="tab-button" onclick="openTab('dungeon', this)">Mazmorra</button>
+            <button class="tab-button" onclick="openTab('tension', this)">Tensión</button>
+            <button class="tab-button" onclick="openTab('items', this)">Objetos</button>
+            <button class="tab-button" onclick="openTab('weather', this)">Clima</button>
+            <button class="tab-button" onclick="openTab('goals', this)">Metas</button>
+            <button class="tab-button" onclick="openTab('journal', this)">Diario</button>
+            <button class="tab-button" onclick="openTab('loot', this)">Botín</button>
+            <button class="tab-button" onclick="openTab('inventory', this)">Inventario</button>
+            <button class="tab-button" onclick="openTab('character', this)">Personaje</button>
+            <button class="tab-button" onclick="openTab('stress', this)">Estrés</button>
+            <button class="tab-button" onclick="openTab('social', this)">Social</button>
+        </div>
+
+        <!-- Contenido de Pestañas -->
+        <div id="oracle" class="tab-content active"></div>
+        <div id="encounters" class="tab-content"></div>
+        <div id="npcs" class="tab-content"></div>
+        <div id="names" class="tab-content"></div>
+        <div id="combat" class="tab-content"></div>
+        <div id="narrative" class="tab-content"></div>
+        <div id="rumors" class="tab-content"></div>
+        <div id="dungeon" class="tab-content"></div>
+        <div id="tension" class="tab-content"></div>
+        <div id="items" class="tab-content"></div>
+        <div id="weather" class="tab-content"></div>
+        <div id="goals" class="tab-content"></div>
+        <div id="journal" class="tab-content"></div>
+        <div id="loot" class="tab-content"></div>
+        <div id="inventory" class="tab-content"></div>
+        <div id="character" class="tab-content"></div>
+        <div id="stress" class="tab-content"></div>
+        <div id="social" class="tab-content"></div>
+    </div>
+
+    <script>
+        // Variables globales
+        let monsters = {};
+        let plotPoints = 0;
+        let rng = Math.random; // Default RNG
+
+        // Cargar datos iniciales
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMonsters();
+            loadPlotPoints();
+            loadNotes();
+            preloadModules();
+        });
+
+        // Cargar monsters.json
+        function loadMonsters() {
+            const script = document.getElementById('monsters-data');
+            if (script) {
+                try {
+                    monsters = JSON.parse(script.textContent);
+                } catch (e) {
+                    console.error('Error parsing monsters.json:', e);
+                }
+            }
+        }
+
+        // Sistema de pestañas
+        function openTab(tabName, button) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            button.classList.add('active');
+        }
+
+        // Precarga de módulos
+        function preloadModules() {
+            const modules = ['oracle', 'encounters', 'npcs', 'names', 'combat', 'narrative', 'rumors', 'dungeon', 'tension', 'items', 'weather', 'goals', 'journal', 'loot', 'inventory', 'character', 'stress', 'social'];
+            modules.forEach(module => {
+                try {
+                    fetch(`modules/${module}/${module}.html`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                            }
+                            return response.text();
+                        })
+                        .then(html => {
+                            document.getElementById(module).innerHTML = html;
+                            // Ejecutar script del módulo si existe
+                            const scriptSrc = `modules/${module}/${module}.js`;
+                            if (document.querySelector(`script[src="${scriptSrc}"]`)) return;
+                            const script = document.createElement('script');
+                            script.src = scriptSrc;
+                            document.body.appendChild(script);
+                        })
+                        .catch(error => {
+                            console.error(`Error loading ${module}:`, error);
+                            displayResult('oracle', `Error cargando módulo ${module}: ${error.message}`);
+                        });
+                } catch (error) {
+                    console.error(`Error en preloadModules para ${module}:`, error);
+                }
+            });
+        }
+
+        // Puntos de trama
+        function usePlotPoint() {
+            if (plotPoints > 0) {
+                plotPoints--;
+                updatePlotDisplay();
+                savePlotPoints();
+                alert('Punto de trama usado. ¡Algo bueno sucede!');
+            } else {
+                alert('No tienes puntos de trama.');
+            }
+        }
+
+        function updatePlotDisplay() {
+            document.getElementById('plot-count').textContent = plotPoints;
+        }
+
+        function loadPlotPoints() {
+            plotPoints = parseInt(localStorage.getItem('plotPoints')) || 0;
+            updatePlotDisplay();
+        }
+
+        function savePlotPoints() {
+            localStorage.setItem('plotPoints', plotPoints);
+        }
+
+        // Semilla reproducible
+        function setSeed() {
+            const seed = document.getElementById('seed-input').value;
+            if (seed) {
+                rng = new Math.seedrandom(seed);
+                alert('Semilla establecida: ' + seed);
+            }
+        }
+
+        // Notas rápidas
+        function saveNotes() {
+            const notes = document.getElementById('quick-notes').value;
+            localStorage.setItem('quickNotes', notes);
+            alert('Notas guardadas.');
+        }
+
+        function loadNotes() {
+            const notes = localStorage.getItem('quickNotes') || '';
+            document.getElementById('quick-notes').value = notes;
+        }
+
+        // Limpiar caché
+        function clearCache() {
+            localStorage.clear();
+            plotPoints = 0;
+            updatePlotDisplay();
+            document.getElementById('quick-notes').value = '';
+            alert('Caché limpiado.');
+        }
+
+        // Función global para mostrar resultados
+        function displayResult(tab, text) {
+            const resultDiv = document.querySelector(`#${tab} .result`);
+            if (resultDiv) {
+                resultDiv.innerHTML = text;
+            }
+        }
+
+        // Función global para añadir al historial
+        function addToHistory(tab, text) {
+            const historyDiv = document.querySelector(`#${tab} .history`);
+            if (historyDiv) {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = text;
+                historyDiv.appendChild(item);
+                historyDiv.scrollTop = historyDiv.scrollHeight;
+            }
+        }
+
+        // Función global para exportar historial
+        function exportHistory(tab) {
+            const historyDiv = document.querySelector(`#${tab} .history`);
+            if (historyDiv) {
+                const items = historyDiv.querySelectorAll('.history-item');
+                let text = `Historial de ${tab.toUpperCase()}\n\n`;
+                items.forEach(item => {
+                    text += item.textContent + '\n';
+                });
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `historial_${tab}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+    </script>
+</body>
+</html>

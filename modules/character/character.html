@@ -1,0 +1,18 @@
+<h2>Progreso de Personaje</h2>
+<div class="result">
+    <p>Nivel: <span id="character-level">1</span></p>
+    <p>HP: <span id="character-hp">20</span>/<span id="character-max-hp">20</span></p>
+    <p>EXP: <span id="character-exp">0</span></p>
+    <p>Habilidades: <span id="character-skills">Fuerza 10, Destreza 10, Constitución 10, Inteligencia 10, Sabiduría 10, Carisma 10</span></p>
+</div>
+<div class="controls">
+    <input type="number" id="gain-exp" placeholder="EXP ganado">
+    <button onclick="gainEXP()">Ganar EXP</button>
+    <button onclick="levelUp()">Subir Nivel</button>
+    <button onclick="healHP()">Curar HP</button>
+    <input type="number" id="damage-hp" placeholder="Daño recibido">
+    <button onclick="takeDamage()">Recibir Daño</button>
+</div>
+<div class="history" id="character-history">
+    <div class="history-title">Historial de Personaje</div>
+</div>

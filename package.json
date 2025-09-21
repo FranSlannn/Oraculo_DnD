@@ -1,0 +1,16 @@
+{
+  "name": "dnd-solitario",
+  "version": "1.0.0",
+  "description": "Herramienta para D&D en solitario con oráculos y generadores",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "build": "electron-forge make"
+  },
+  "author": "Tu Nombre",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.9.0",
+    "electron": "^38.1.2"
+  }
+}
