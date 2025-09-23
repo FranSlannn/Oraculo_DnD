@@ -21,3 +21,7 @@ function clearRumors() {
     if (result) result.textContent = '';
     logger('rumors', 'clearRumors', 'Limpieza completada');
 }
+
+// Expose functions globally
+window.generateRumor = generateRumor;
+window.clearRumors = clearRumors;

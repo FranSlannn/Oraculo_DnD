@@ -31,3 +31,8 @@ function updateTensionDisplay() {
     document.getElementById('tension-level').textContent = tensionLevel;
     logger('tension', 'updateTensionDisplay', 'Display actualizado');
 }
+
+// Expose functions globally
+window.increaseTension = increaseTension;
+window.decreaseTension = decreaseTension;
+window.resetTension = resetTension;

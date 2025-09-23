@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Herramienta para D&D en solitario con oráculos y generadores",
   "type": "module",
-  "main": "main.js",
+  "main": "main.cjs",
   "scripts": {
     "start": "electron-forge start",
+    "dev": "npx http-server -p 3000",
     "build": "electron-forge make",
     "lint": "eslint . --ext .js",
     "auto-commit": "git add . && git diff --cached --quiet || git commit -m \"Auto commit: significant changes\"",

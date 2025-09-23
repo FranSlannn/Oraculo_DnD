@@ -6,6 +6,7 @@ function askOracle() {
     if (!question) {
         logger('oracle', 'askOracle', 'Pregunta vacía, mostrando mensaje de error');
         displayResult('oracle', 'Por favor, haz una pregunta.');
+        addToHistory('oracle', 'Intento de consulta sin pregunta');
         return;
     }
 
@@ -28,13 +29,6 @@ function askOracle() {
     logger('oracle', 'askOracle', `Respuesta generada: ${answer}`);
 }
 
-// Función auxiliar para elemento aleatorio
-function getRandomElement(array) {
-    logger('oracle', 'getRandomElement', `Seleccionando elemento aleatorio de array de longitud ${array.length}`);
-    const element = array[Math.floor(rng() * array.length)];
-    logger('oracle', 'getRandomElement', `Elemento seleccionado: ${element}`);
-    return element;
-}
 
 function clearOracle() {
     logger('oracle', 'clearOracle', 'Iniciando limpieza del historial y campos del oráculo');
@@ -51,3 +45,7 @@ function clearOracle() {
     if (question) question.value = '';
     logger('oracle', 'clearOracle', 'Limpieza completada');
 }
+
+// Expose functions globally for onclick handlers
+window.askOracle = askOracle;
+window.clearOracle = clearOracle;

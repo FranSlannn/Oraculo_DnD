@@ -50,48 +50,56 @@
     <button onclick="generateVillain()">Generar Villano</button>
     <button onclick="generateAlly()">Generar Aliado</button>
     <button onclick="generateMonster()">Generar Monstruo</button>
+    <button onclick="generateSampleAlly()"><i class="fas fa-dice-d20"></i> Generar Aliado de Ejemplo</button>
 </div>
 <div class="result" id="encounter-result"></div>
 <div id="ally-card-container" class="ally-card">
     <div class="ally-name-container">
-        <div class="ally-name"></div>
+        <div class="ally-name" id="ally-name"></div>
     </div>
-    <div class="ally-type"></div>
-    <div class="stats-highlight"></div>
-    <div class="stats-detail"></div>
-    <div class="narrative"></div>
+    <div class="ally-type" id="ally-type"></div>
+    <div class="ability-scores" id="ability-scores"></div>
+    <div class="stats-highlight" id="stats-highlight"></div>
+    <div class="stats-detail" id="stats-detail"></div>
+    <div class="narrative" id="narrative"></div>
     <div class="section">
-        <div class="section-title">Habilidades</div>
-        <div class="section-content"></div>
+        <div class="section-title"><i class="fas fa-bolt"></i>Habilidades</div>
+        <div class="section-content" id="abilities-content"></div>
     </div>
     <div class="section">
-        <div class="section-title">Habilidades de Clase</div>
+        <div class="section-title"><i class="fas fa-magic"></i>Habilidades de Clase</div>
         <div class="section-content" id="class-skills-content"></div>
         <div id="skill-buttons"></div>
     </div>
     <div class="section">
-        <div class="section-title">Rasgos</div>
+        <div class="section-title"><i class="fas fa-scroll"></i>Rasgos</div>
         <div class="section-content" id="traits-content"></div>
     </div>
     <div class="section">
-        <div class="section-title">Inventario</div>
+        <div class="section-title"><i class="fas fa-suitcase"></i>Inventario</div>
         <div class="section-content" id="inventory-content"></div>
     </div>
-    <table class="stats-table"></table>
     <div id="action-result"></div>
     <div id="exp-result"></div>
     <div id="dialogue-result"></div>
-    <button class="save-button" onclick="saveAlly()">Guardar Aliado</button>
-    <button class="load-button" onclick="loadAlly()">Cargar Aliado</button>
+    <button class="save-button" onclick="saveAlly()"><i class="fas fa-save"></i> Guardar Aliado</button>
+    <button class="load-button" onclick="loadAlly()"><i class="fas fa-upload"></i> Cargar Aliado</button>
 </div>
 <div id="monster-card-container" class="monster-card">
     <div class="monster-name-container">
-        <div class="monster-name"></div>
+        <div class="monster-name" id="monster-name"></div>
     </div>
-    <div class="monster-meta"></div>
-    <div class="monster-stats"></div>
-    <div class="monster-traits"></div>
-    <div class="monster-actions"></div>
+    <div class="monster-meta" id="monster-meta"></div>
+    <div class="ability-scores" id="monster-stats"></div>
+    <div class="stats-highlight" id="monster-stats-highlight"></div>
+    <div class="section">
+        <div class="section-title"><i class="fas fa-star"></i>Rasgos</div>
+        <div class="section-content" id="monster-traits"></div>
+    </div>
+    <div class="section">
+        <div class="section-title"><i class="fas fa-sword"></i>Acciones</div>
+        <div class="section-content" id="monster-actions"></div>
+    </div>
 </div>
 <div class="history" id="encounter-history">
     <div class="history-title">Historial de Encuentros</div>

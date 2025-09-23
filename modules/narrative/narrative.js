@@ -30,3 +30,8 @@ function clearNarrative() {
     if (result) result.textContent = '';
     logger('narrative', 'clearNarrative', 'Limpieza completada');
 }
+
+// Expose functions globally
+window.generateNarrativeMeaning = generateNarrativeMeaning;
+window.generateRandomEvent = generateRandomEvent;
+window.clearNarrative = clearNarrative;

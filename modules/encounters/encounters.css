@@ -1,0 +1,357 @@
+/* =========================================================================
+   Estilo D&D 5e Oficial - Fichas de Personaje y Monstruos
+   =========================================================================
+   Diseño fiel a los libros de reglas de D&D 5e, con tipografía, colores
+   y layout idénticos a las fichas oficiales de Wizards of the Coast
+   ========================================================================= */
+
+/* Variables CSS del estilo D&D oficial */
+:root {
+  /* Colores oficiales D&D - tomados de los libros */
+  --dnd-parchment: #f5e8c8;
+  --dnd-parchment-dark: #e6d4a8;
+  --dnd-gold: #c9a66a;
+  --dnd-gold-dark: #b89450;
+  --dnd-red: #8b0000;
+  --dnd-red-dark: #5a0000;
+  --dnd-blue: #1e3a5f;
+  --dnd-blue-dark: #0f1d2f;
+  --dnd-ink: #2c1810;
+  --dnd-ink-light: #5a4a3a;
+  
+  /* Tipografía D&D oficial */
+  --dnd-font-serif: "Times New Roman", "Palatino Linotype", serif;
+  --dnd-font-heading: "Mr Eaves Small Caps", "Georgia", serif;
+  
+  /* Bordes y ornamentos */
+  --dnd-border: 2px solid var(--dnd-gold);
+  --dnd-border-thick: 3px double var(--dnd-gold);
+}
+
+/* ESTILOS BASE D&D OFICIAL */
+body {
+  font-family: var(--dnd-font-serif);
+  background-color: var(--dnd-parchment);
+  color: var(--dnd-ink);
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.1"><rect fill="%23c9a66a" width="100" height="100"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23b89450" stroke-width="1"/></svg>');
+}
+
+/* CONTENEDOR PRINCIPAL ESTILO FICHA D&D */
+.monster-card, .ally-card {
+  background: var(--dnd-parchment);
+  border: var(--dnd-border-thick);
+  border-radius: 0; /* Las fichas D&D tienen bordes rectos */
+  padding: 25px;
+  margin: 20px auto;
+  max-width: 650px;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.05"><rect fill="%23c9a66a" x="10" y="10" width="180" height="180"/><rect fill="none" stroke="%23b89450" stroke-width="2" x="0" y="0" width="200" height="200"/></svg>');
+}
+
+/* CABECERA ESTILO D&D OFICIAL */
+.monster-name-container, .ally-name-container {
+  text-align: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: var(--dnd-border);
+  position: relative;
+}
+
+.monster-name, .ally-name {
+  font-family: var(--dnd-font-heading);
+  font-size: 28px;
+  font-weight: normal;
+  color: var(--dnd-red);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.monster-meta, .ally-type {
+  font-family: var(--dnd-font-heading);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--dnd-ink-light);
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  margin-top: 5px;
+}
+
+/* ATRIBUTOS ESTILO D&D OFICIAL - 6 columnas igual que las fichas */
+.ability-scores {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 25px;
+  background: var(--dnd-parchment-dark);
+  border: 1px solid var(--dnd-gold);
+  padding: 15px;
+}
+
+.stat-box {
+  text-align: center;
+  padding: 8px 5px;
+  background: white;
+  border: 1px solid var(--dnd-gold);
+  position: relative;
+}
+
+.stat-title {
+  font-family: var(--dnd-font-heading);
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--dnd-red);
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid var(--dnd-gold);
+  padding-bottom: 3px;
+}
+
+.stat-value {
+  font-family: var(--dnd-font-serif);
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--dnd-ink);
+  margin: 5px 0;
+}
+
+.stat-mod {
+  font-family: var(--dnd-font-heading);
+  font-size: 11px;
+  color: var(--dnd-ink-light);
+  background: var(--dnd-gold);
+  padding: 1px 6px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+/* ESTADÍSTICAS PRINCIPALES ESTILO D&D */
+.stats-highlight {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stats-highlight > div {
+  background: white;
+  border: 1px solid var(--dnd-gold);
+  padding: 10px;
+  text-align: center;
+}
+
+.hp-highlight {
+  background: linear-gradient(to bottom, #f8f0e0, #e8d8b8);
+  border: 1px solid var(--dnd-gold);
+  padding: 12px;
+  font-weight: bold;
+  position: relative;
+}
+
+.hp-highlight::before {
+  content: "PUNTOS DE GOLPE";
+  display: block;
+  font-family: var(--dnd-font-heading);
+  font-size: 10px;
+  color: var(--dnd-red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+/* SECCIONES ESTILO D&D OFICIAL */
+.section {
+  margin-bottom: 20px;
+  border: 1px solid var(--dnd-gold);
+  background: white;
+}
+
+.section-title {
+  font-family: var(--dnd-font-heading);
+  font-size: 16px;
+  color: var(--dnd-red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(to bottom, #f0e4c8, #e0d4a8);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--dnd-gold);
+  margin: 0;
+}
+
+.section-content {
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--dnd-ink);
+}
+
+/* LISTAS ESTILO D&D */
+.section-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.section-content li {
+  padding: 3px 0;
+  border-bottom: 1px dotted var(--dnd-gold);
+}
+
+.section-content li:last-child {
+  border-bottom: none;
+}
+
+/* BOTONES ESTILO D&D */
+.skill-button, .action-button {
+  font-family: var(--dnd-font-heading);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(to bottom, #d4b878, #b89450);
+  color: var(--dnd-ink);
+  border: 1px solid var(--dnd-gold-dark);
+  padding: 6px 12px;
+  margin: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.skill-button:hover, .action-button:hover {
+  background: linear-gradient(to bottom, #b89450, #987430);
+  color: white;
+}
+
+/* INDICADOR DE LEALTAD ESTILO D&D */
+.loyalty-indicator {
+  font-family: var(--dnd-font-heading);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 8px;
+  border: 1px solid;
+}
+
+.loyalty-high {
+  background: #e8f4e8;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.loyalty-medium {
+  background: #fff3cd;
+  border-color: #ffc107;
+  color: #856404;
+}
+
+.loyalty-low {
+  background: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+/* CHECKBOXES ESTILO D&D */
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--dnd-gold);
+  background: white;
+  margin-right: 8px;
+  position: relative;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--dnd-gold);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ESTILOS ESPECÍFICOS PARA MONSTRUOS (más oscuro) */
+.monster-card {
+  background: var(--dnd-blue-dark);
+  color: #e0d4b0;
+  border-color: var(--dnd-red);
+}
+
+.monster-card .section {
+  background: #1a2a3a;
+  border-color: var(--dnd-red);
+}
+
+.monster-card .section-title {
+  background: linear-gradient(to bottom, #2a3a4a, #1a2a3a);
+  color: #e0d4b0;
+  border-bottom-color: var(--dnd-red);
+}
+
+/* RESPONSIVE ESTILO D&D */
+@media (max-width: 768px) {
+  .ability-scores {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .stats-highlight {
+    grid-template-columns: 1fr;
+  }
+  
+  .monster-card, .ally-card {
+    margin: 10px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ability-scores {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .monster-name, .ally-name {
+    font-size: 22px;
+  }
+}
+
+/* EFECTOS DE ORNAMENTOS D&D */
+.monster-card::before, .ally-card::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1px solid rgba(201, 166, 106, 0.3);
+  pointer-events: none;
+}
+
+/* ESTILO PARA TEXTOS DE ACCIONES ESPECIALES */
+.special-action {
+  font-style: italic;
+  color: var(--dnd-red);
+  border-left: 3px solid var(--dnd-gold);
+  padding-left: 10px;
+  margin: 10px 0;
+}
+
+/* ESTILO PARA DAÑO Y ATAQUES (como en libros D&D) */
+.damage-type {
+  display: inline-block;
+  background: var(--dnd-red);
+  color: white;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-left: 5px;
+}

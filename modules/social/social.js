@@ -11,7 +11,7 @@ function startSocialEncounter() {
 
 function negotiate() {
     logger('social', 'negotiate', 'Realizando negociación');
-    const roll = Math.floor(rng() * 20) + 1;
+    const roll = Math.floor(window.rng() * 20) + 1;
     const success = roll >= 10;
     const result = `Negociación: ${roll} - ${success ? 'Éxito' : 'Fallo'}`;
     logger('social', 'negotiate', `Rollo: ${roll}, Resultado: ${success ? 'Éxito' : 'Fallo'}`);
@@ -22,7 +22,7 @@ function negotiate() {
 
 function persuade() {
     logger('social', 'persuade', 'Realizando persuasión');
-    const roll = Math.floor(rng() * 20) + 1;
+    const roll = Math.floor(window.rng() * 20) + 1;
     const success = roll >= 12;
     const result = `Persuasión: ${roll} - ${success ? 'Éxito' : 'Fallo'}`;
     logger('social', 'persuade', `Rollo: ${roll}, Resultado: ${success ? 'Éxito' : 'Fallo'}`);
@@ -33,7 +33,7 @@ function persuade() {
 
 function intimidate() {
     logger('social', 'intimidate', 'Realizando intimidación');
-    const roll = Math.floor(rng() * 20) + 1;
+    const roll = Math.floor(window.rng() * 20) + 1;
     const success = roll >= 15;
     const result = `Intimidación: ${roll} - ${success ? 'Éxito' : 'Fallo'}`;
     logger('social', 'intimidate', `Rollo: ${roll}, Resultado: ${success ? 'Éxito' : 'Fallo'}`);
@@ -41,3 +41,9 @@ function intimidate() {
     addToHistory('social', result);
     logger('social', 'intimidate', 'Intimidación completada');
 }
+
+// Expose functions globally
+window.startSocialEncounter = startSocialEncounter;
+window.negotiate = negotiate;
+window.persuade = persuade;
+window.intimidate = intimidate;

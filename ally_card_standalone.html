@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Aliado - Standalone</title>
+    <style>
+        /* =========================================================================
+           Estilos para Tarjeta de Aliado - Standalone
+           =========================================================================
+           Extraído de StyleIndex.css, líneas 373-570.
+           ========================================================================= */
+
+        /* Variables CSS para consistencia */
+        :root {
+            --primary-bg: #f5f5dc; /* Beige claro */
+            --border-color: #8b4513; /* Marrón oscuro */
+            --text-color: #000000; /* Negro */
+            --accent-color: #d4a017; /* Dorado */
+            --highlight-bg: #fff8e5; /* Beige muy claro */
+            --button-bg: #8b4513; /* Marrón */
+            --button-hover: #654321; /* Marrón oscuro */
+            --loyalty-high: #28a745; /* Verde */
+            --loyalty-medium: #ffc107; /* Amarillo */
+            --loyalty-low: #dc3545; /* Rojo */
+        }
+
+        body {
+            font-family: "Times New Roman", serif;
+            background-color: #f0f0f0;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .ally-card {
+            background-color: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px auto;
+            max-width: 600px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            width: 100%;
+            display: block; /* Mostrar por defecto en standalone */
+        }
+
+        .ally-name-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .ally-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--border-color);
+            margin-bottom: 5px;
+        }
+
+        .ally-type {
+            font-size: 14px;
+            font-style: italic;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .stats-highlight {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .stats-highlight > div {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .hp-highlight {
+            background: linear-gradient(90deg, #f8e7b0 0%, #f0d77b 100%);
+            border: 1px solid #d1b75c;
+            border-radius: 6px;
+            padding: 6px 10px;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            margin-right: 5px;
+            color: var(--accent-color);
+        }
+
+        .stats-detail {
+            background: var(--highlight-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .narrative {
+            background: var(--highlight-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .narrative-icon {
+            margin-right: 5px;
+            color: var(--accent-color);
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: var(--border-color);
+            font-size: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
+            margin-bottom: 10px;
+        }
+
+        .section-content {
+            padding-left: 10px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        #skill-buttons {
+            margin-top: 10px;
+        }
+
+        .skill-button {
+            background: linear-gradient(90deg, #b68b2d 0%, #a0782a 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 12px;
+        }
+
+        .skill-button:hover {
+            background: linear-gradient(90deg, #9a7225 0%, #8a6520 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        .stats-table th, .stats-table td {
+            border: 1px solid var(--border-color);
+            padding: 5px;
+            text-align: left;
+        }
+
+        .stats-table th {
+            background-color: var(--border-color);
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .action-button, .exp-button, .save-button, .load-button {
+            background-color: var(--button-bg);
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        .action-button:hover, .exp-button:hover, .save-button:hover, .load-button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .loyalty-indicator {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .loyalty-high { color: var(--loyalty-high); }
+        .loyalty-medium { color: var(--loyalty-medium); }
+        .loyalty-low, .loyalty-disloyal { color: var(--loyalty-low); }
+
+        #action-result, #exp-result, #dialogue-result {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 480px) {
+            .ally-card { padding: 10px; }
+            .ally-name { font-size: 24px; }
+            .stats-highlight { flex-direction: column; }
+            .stats-highlight > div { margin-bottom: 10px; }
+            .action-button, .exp-button, .save-button, .load-button {
+                width: 100%;
+                box-sizing: border-box;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Tarjeta de Aliado - Standalone</h1>
+    <p>Esta página contiene únicamente la tarjeta del aliado generada por la función <code>generateAllyCard</code>, con HTML, CSS y JS necesarios.</p>
+
+    <!-- HTML de la tarjeta del aliado -->
+    <div id="ally-card-container" class="ally-card">
+        <div class="ally-name-container">
+            <div class="ally-name" id="ally-name"></div>
+        </div>
+        <div class="ally-type" id="ally-type"></div>
+        <div class="stats-highlight" id="stats-highlight"></div>
+        <div class="stats-detail" id="stats-detail"></div>
+        <div class="narrative" id="narrative"></div>
+        <div class="section">
+            <div class="section-title">Habilidades</div>
+            <div class="section-content" id="abilities-content"></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Habilidades de Clase</div>
+            <div class="section-content" id="class-skills-content"></div>
+            <div id="skill-buttons"></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Rasgos</div>
+            <div class="section-content" id="traits-content"></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Inventario</div>
+            <div class="section-content" id="inventory-content"></div>
+        </div>
+        <table class="stats-table" id="stats-table"></table>
+        <div id="action-result"></div>
+        <div id="exp-result"></div>
+        <div id="dialogue-result"></div>
+        <button class="save-button" onclick="saveAlly()">Guardar Aliado</button>
+        <button class="load-button" onclick="loadAlly()">Cargar Aliado</button>
+    </div>
+
+    <button onclick="generateSampleAlly()">Generar Aliado de Ejemplo</button>
+
+    <script>
+        // =========================================================================
+        // JavaScript para Tarjeta de Aliado - Standalone
+        // =========================================================================
+        // Incluye las funciones necesarias para generar y manejar la tarjeta del aliado.
+        // Explicaciones en comentarios.
+        // =========================================================================
+
+        // Función auxiliar para RNG (simula window.rng)
+        // En el proyecto original, window.rng es proporcionado por seedrandom.min.js
+        // Aquí usamos Math.random para simplicidad
+        window.rng = Math.random;
+
+        // Función logger (simplificada)
+        function logger(module, func, message, params) {
+            console.log(`[${new Date().toISOString()}] [${module}] ${func}: ${message}`, params || '');
+        }
+
+        // Función auxiliar para seleccionar elemento aleatorio de array
+        function getRandomElement(arr) {
+            return arr[Math.floor(window.rng() * arr.length)];
+        }
+
+        // Constantes para nombres de aliados
+        const allyNames = [
+            "Aelar", "Bryn", "Caelum", "Drenna", "Eldrin", "Faelar", "Gwendolyn", "Haldir", "Isolde", "Jorvik",
+            "Kaelen", "Liora", "Mirael", "Nyx", "Orin", "Peyton", "Quorin", "Rhea", "Sylvara", "Thalion",
+            "Ursula", "Veylin", "Wren", "Xyra", "Ysolde", "Zephyr", "Aerith", "Brenna", "Cyril", "Darius",
+            "Elowen", "Finnian", "Galen", "Hadrian", "Ilyana", "Jasper", "Kaelith", "Lorien", "Maelis", "Nero",
+            "Oryn", "Phaedra", "Quillian", "Rhydian", "Seraphine", "Tarian", "Ulric", "Virelle", "Wylfred", "Xandor",
+            "Ysmera", "Zorak"
+        ];
+
+        // Función safeRandom: selecciona elemento aleatorio de array
+        // Ligada a window.rng para consistencia en generación
+        const safeRandom = (arr) => {
+            if (!Array.isArray(arr) || arr.length === 0) return '';
+            const randomValue = window.rng();
+            const index = Math.floor(randomValue * arr.length);
+            const element = arr[index];
+            logger('encounters', 'safeRandom', `Seleccionando elemento aleatorio: ${element}`, { arrLength: arr.length, index, randomValue });
+            return element;
+        };
+
+        // Funciones auxiliares para calcular stats del aliado
+        // getProficiencyBonus: calcula el bono de competencia basado en nivel
+        // Ligado al sistema D&D: nivel 1-4: +2, 5-8: +3, etc.
+        function getProficiencyBonus(level) {
+            const levelMap = { "0": 2, "1": 2, "2": 2, "3": 2, "4": 2, "5": 3, "6": 3, "7": 3, "8": 3, "9": 4, "10": 4, "11": 4, "12": 4, "13": 5, "14": 5, "15": 5, "16": 5, "17+": 6 };
+            return levelMap[level] || 2;
+        }
+
+        // calculateHitPoints: calcula PV basado en nivel y constitución
+        // Fórmula D&D: promedio de dados de golpe + modificador CON * nivel
+        function calculateHitPoints(level, conMod, type) {
+            const hitDieCount = Math.max(1, Math.floor((parseInt(level) || 1) * 1.5));
+            let hitDice = 6; // Por defecto d6
+            if (type.includes("Elfo") || type.includes("Humanoide")) hitDice = 6;
+            else if (type.includes("Bestia")) hitDice = 8;
+            const conBonus = conMod * hitDieCount;
+            const averageRoll = Math.floor((hitDice / 2) + 0.5) * hitDieCount;
+            return averageRoll + conBonus;
+        }
+
+        // calculateAttackBonus: bono de ataque = modificador principal + bono competencia
+        function calculateAttackBonus(mainAbilityMod, level) {
+            const proficiencyBonus = getProficiencyBonus(level);
+            return mainAbilityMod + proficiencyBonus;
+        }
+
+        // calculateSavingThrows: calcula salvaciones para DES y SAB
+        function calculateSavingThrows(stats, level) {
+            const proficiencyBonus = getProficiencyBonus(level);
+            return {
+                DES: parseInt(stats.DES.split('+')[1]) + proficiencyBonus,
+                SAB: parseInt(stats.SAB.split('+')[1]) + proficiencyBonus,
+                FUE: parseInt(stats.FUE.split('+')[1]) + 0,
+                CON: parseInt(stats.CON.split('+')[1]) + 0,
+                INT: parseInt(stats.INT.split('+')[1]) + 0,
+                CAR: parseInt(stats.CAR.split('+')[1]) + 0
+            };
+        }
+
+        // getLoyalty: determina lealtad basada en carisma
+        // Sistema personalizado: alta/media/baja/desleal
+        function getLoyalty(charismaMod, role) {
+            const baseLoyalty = charismaMod + 1;
+            if (role.includes("Leal")) return baseLoyalty >= 3 ? "Alta" : "Media";
+            else if (role.includes("Neutral")) return baseLoyalty >= 2 ? "Media" : "Baja";
+            else return baseLoyalty >= 1 ? "Baja" : "Desleal";
+        }
+
+        // generateInventory: genera inventario básico basado en tipo y rol
+        function generateInventory(type, role) {
+            const baseItems = ["Cuchillo", "Cantimplora"];
+            if (type.includes("Elfo") || role.includes("Exploradora")) return [...baseItems, "Arco corto", "2 Pociones de curación"];
+            return baseItems;
+        }
+
+        // generateSpecialAction: acción especial del aliado
+        function generateSpecialAction(traits, level) {
+            return "+2 a Exploración / +1d4 Curación";
+        }
+
+        // generateDialogue: genera respuesta de diálogo basada en lealtad
+        function generateDialogue(loyalty, charismaMod) {
+            const responses = {
+                "Alta": ["¡Claro, te ayudaré con gusto!", "Juntos somos invencibles.", "Confío en tu liderazgo."],
+                "Media": ["Hmm, supongo que puedo ayudar...", "Solo si me conviene.", "Dime qué necesitas."],
+                "Baja": ["No estoy seguro de esto...", "Solo si no hay otro modo.", "¿Por qué debería ayudarte?"],
+                "Desleal": ["¡No confío en ti!", "Mejor me voy por mi cuenta.", "¡Traición es mi juego!"]
+            };
+            const chaosFactor = window.rng() < 0.3 ? " (con un giro inesperado)" : "";
+            const validLoyalty = responses[loyalty] ? loyalty : "Media";
+            const baseIndex = Math.floor(window.rng() * responses[validLoyalty].length);
+            const modifier = charismaMod > 0 ? Math.min(charismaMod, 2) : 0;
+            const adjustedIndex = (baseIndex + modifier) % responses[validLoyalty].length;
+            return responses[validLoyalty][adjustedIndex] + chaosFactor;
+        }
+
+        // getPrimaryStat: determina stat principal basado en rol/clase
+        function getPrimaryStat(role) {
+            const roleMap = { "Guerrero": "FUE", "Mago": "INT", "Clérigo": "SAB", "Pícaro": "DES", "Bárbaro": "FUE", "Bardo": "CAR", "Explorador": "DES",
+                               "Paladín": "FUE", "Druida": "SAB", "Monje": "DES", "Hechicero": "CAR", "Brujo": "CAR", "Alquimista": "INT",
+                               "Cazador de Demonios": "DES", "Caballero Negro": "FUE", "Artificiero": "INT", "Samurái": "FUE", "Guardabosques": "DES",
+                               "Invocador": "INT", "Nigromante": "INT", "Gladiador": "FUE", "Mercenario": "FUE", "Sacerdote de Guerra": "SAB",
+                               "Maestro de Bestias": "SAB", "Espadachín": "FUE", "Ilusionista": "INT" };
+            return roleMap[role.split(" ")[0]] || "FUE";
+        }
+
+        // customizeStats: genera stats base con boost por clase
+        // Ligado a D&D: stats base 10, boost +3 para clase principal
+        function customizeStats(role, level) {
+            const baseStats = { FUE: "10 (+0)", DES: "10 (+0)", CON: "10 (+0)", INT: "10 (+0)", SAB: "10 (+0)", CAR: "10 (+0)" };
+            const roleBoosts = { "Guerrero": { FUE: "16 (+3)" }, "Mago": { INT: "16 (+3)" }, "Clérigo": { SAB: "16 (+3)" }, "Pícaro": { DES: "16 (+3)" },
+                               "Bárbaro": { FUE: "16 (+3)" }, "Bardo": { CAR: "16 (+3)" }, "Explorador": { DES: "16 (+3)" }, "Paladín": { FUE: "16 (+3)" },
+                               "Druida": { SAB: "16 (+3)" }, "Monje": { DES: "16 (+3)" }, "Hechicero": { CAR: "16 (+3)" }, "Brujo": { CAR: "16 (+3)" },
+                               "Alquimista": { INT: "16 (+3)" }, "Cazador de Demonios": { DES: "16 (+3)" }, "Caballero Negro": { FUE: "16 (+3)" },
+                               "Artificiero": { INT: "16 (+3)" }, "Samurái": { FUE: "16 (+3)" }, "Guardabosques": { DES: "16 (+3)" },
+                               "Invocador": { INT: "16 (+3)" }, "Nigromante": { INT: "16 (+3)" }, "Gladiador": { FUE: "16 (+3)" },
+                               "Mercenario": { FUE: "16 (+3)" }, "Sacerdote de Guerra": { SAB: "16 (+3)" }, "Maestro de Bestias": { SAB: "16 (+3)" },
+                               "Espadachín": { FUE: "16 (+3)" }, "Ilusionista": { INT: "16 (+3)" } };
+            let stats = { ...baseStats, ...roleBoosts[role.split(" ")[0]] };
+            stats.CA = "14";
+            stats.Velocidad = "30 pies";
+            stats.Daño = "1d6";
+            return stats;
+        }
+
+        // generateClassSkills: genera habilidades de clase
+        function generateClassSkills(role) {
+            const classSkills = { "Guerrero": ["Golpe potente"], "Mago": ["Lanzamiento de conjuros"], "Clérigo": ["Curación divina"], "Pícaro": ["Sigilo"],
+                               "Bárbaro": ["Furia"], "Bardo": ["Inspiración"], "Explorador": ["Rastreo", "Disparo Preciso"], "Paladín": ["Golpe sagrado"],
+                               "Druida": ["Forma salvaje"], "Monje": ["Golpe de ki"], "Hechicero": ["Explosión mágica"], "Brujo": ["Pacto oscuro"],
+                               "Alquimista": ["Poción explosiva"], "Cazador de Demonios": ["Ataque demoníaco"], "Caballero Negro": ["Golpe sombrío"],
+                               "Artificiero": ["Dispositivo mágico"], "Samurái": ["Corte preciso"], "Guardabosques": ["Tiro certero"],
+                               "Invocador": ["Invocación menor"], "Nigromante": ["Resurrección menor"], "Gladiador": ["Golpe teatral"],
+                               "Mercenario": ["Ataque rápido"], "Sacerdote de Guerra": ["Bendición bélica"], "Maestro de Bestias": ["Llamado animal"],
+                               "Espadachín": ["Estocada"], "Ilusionista": ["Ilusión menor"] };
+            return classSkills[role.split(" ")[0]] || ["Sin habilidades"];
+        }
+
+        // useClassSkill: usa habilidad de clase, calcula resultado
+        function useClassSkill(skill, level) {
+            const skillEffects = {
+                "Rastreo": () => `Rastreo exitoso (1d20 + ${getProficiencyBonus(level)}): ${Math.floor(window.rng() * 20) + 1 + getProficiencyBonus(level)}`,
+                "Disparo Preciso": () => `Daño adicional (1d4): +${Math.floor(window.rng() * 4) + 1}`,
+                "Lanzamiento de conjuros": () => `Daño mágico (1d6): ${Math.floor(window.rng() * 6) + 1}`,
+                "Golpe potente": () => `Daño extra (1d6): +${Math.floor(window.rng() * 6) + 1}`,
+                "Curación divina": () => `Curación (1d6): +${Math.floor(window.rng() * 6) + 1} PV`,
+                "Sigilo": () => `Sigilo exitoso (1d20 + ${getProficiencyBonus(level)}): ${Math.floor(window.rng() * 20) + 1 + getProficiencyBonus(level)}`,
+                "Furia": () => `Daño aumentado (1d8): +${Math.floor(window.rng() * 8) + 1}`,
+                "Inspiración": () => `Inspiración otorgada (+${getProficiencyBonus(level)})`,
+                "Golpe sagrado": () => `Daño divino (1d6): ${Math.floor(window.rng() * 6) + 1}`,
+                "Forma salvaje": () => `Transformación activa (1d4 rondas)`,
+                "Golpe de ki": () => `Daño ki (1d4): +${Math.floor(window.rng() * 4) + 1}`,
+                "Explosión mágica": () => `Daño mágico (1d8): ${Math.floor(window.rng() * 8) + 1}`,
+                "Pacto oscuro": () => `Daño oscuro (1d6): ${Math.floor(window.rng() * 6) + 1}`,
+                "Poción explosiva": () => `Daño explosivo (1d6): ${Math.floor(window.rng() * 6) + 1}`,
+                "Ataque demoníaco": () => `Daño infernal (1d8): ${Math.floor(window.rng() * 8) + 1}`,
+                "Golpe sombrío": () => `Daño sombrío (1d6): ${Math.floor(window.rng() * 6) + 1}`,
+                "Dispositivo mágico": () => `Efecto mágico (1d4): +${Math.floor(window.rng() * 4) + 1}`,
+                "Corte preciso": () => `Daño preciso (1d6): ${Math.floor(window.rng() * 6) + 1}`,
+                "Tiro certero": () => `Daño certero (1d4): +${Math.floor(window.rng() * 4) + 1}`,
+                "Invocación menor": () => `Criatura invocada (1d4 HP)`,
+                "Resurrección menor": () => `Esqueleto animado (1d6 HP)`,
+                "Golpe teatral": () => `Daño escénico (1d6): ${Math.floor(window.rng() * 6) + 1}`,
+                "Ataque rápido": () => `Daño rápido (1d4): +${Math.floor(window.rng() * 4) + 1}`,
+                "Bendición bélica": () => `Curación (1d6): +${Math.floor(window.rng() * 6) + 1} PV`,
+                "Llamado animal": () => `Aliado animal (1d4 rondas)`,
+                "Estocada": () => `Daño penetrante (1d6): ${Math.floor(window.rng() * 6) + 1}`,
+                "Ilusión menor": () => `Ilusión creada (1d4 rondas)`
+            };
+            return skillEffects[skill] ? skillEffects[skill]() : "Habilidad no disponible";
+        }
+
+        // Función principal: generateAllyCard
+        // Llena la tarjeta del aliado con datos proporcionados
+        // Ligada a generateAlly que crea el objeto ally y llama a esta función
+        function generateAllyCard(allyData) {
+            console.log('generateAllyCard: Iniciando con allyData:', allyData);
+            const card = document.getElementById('ally-card-container');
+            console.log('generateAllyCard: card element:', card);
+            if (!card) {
+                console.error('generateAllyCard: card no encontrado');
+                return;
+            }
+            console.log('generateAllyCard: card children count:', card.children.length);
+            console.log('generateAllyCard: card innerHTML length:', card.innerHTML.length);
+
+            const allyNameEl = card.querySelector('#ally-name');
+            console.log('generateAllyCard: allyNameEl:', allyNameEl);
+            if (allyNameEl) allyNameEl.innerHTML = `<i class="fas fa-user-shield"></i> ${allyData.name}`;
+
+            const allyTypeEl = card.querySelector('#ally-type');
+            console.log('generateAllyCard: allyTypeEl:', allyTypeEl);
+            if (allyTypeEl) allyTypeEl.textContent = `${allyData.type} • ${allyData.role} • Nivel ${allyData.level}`;
+
+            // Cálculos de stats
+            const conMod = parseInt((allyData.stats.CON || "10 (+0)").split('+')[1]) || 0;
+            logger('encounters', 'generateAllyCard', `conMod: ${conMod}, level: ${allyData.level}, type: ${allyData.type}`);
+            const hp = calculateHitPoints(allyData.level, conMod, allyData.type);
+            logger('encounters', 'generateAllyCard', `HP calculado: ${hp}`);
+            const primaryStat = getPrimaryStat(allyData.role);
+            const mainAbilityMod = parseInt((allyData.stats[primaryStat] || "10 (+0)").split('+')[1]) || 0;
+            logger('encounters', 'generateAllyCard', `primaryStat: ${primaryStat}, mainAbilityMod: ${mainAbilityMod}`);
+            const attackBonus = calculateAttackBonus(mainAbilityMod, allyData.level);
+            logger('encounters', 'generateAllyCard', `attackBonus: ${attackBonus}`);
+            const savingThrows = calculateSavingThrows(allyData.stats, allyData.level);
+            logger('encounters', 'generateAllyCard', `savingThrows: ${JSON.stringify(savingThrows)}`);
+            const charismaMod = parseInt((allyData.stats.CAR || "10 (+0)").split('+')[1]) || 0;
+            logger('encounters', 'generateAllyCard', `charismaMod: ${charismaMod}`);
+            const loyalty = getLoyalty(charismaMod, allyData.role);
+            logger('encounters', 'generateAllyCard', `loyalty: ${loyalty}`);
+            const inventory = generateInventory(allyData.type, allyData.role);
+            const specialAction = generateSpecialAction(allyData.traits, allyData.level);
+            const classSkills = generateClassSkills(allyData.role);
+
+            // Actualizar stats del aliado
+            allyData.stats.HP = `${hp} (${Math.floor(hp / (conMod + 1))}d${Math.floor(hp / (conMod + 1) * 2)} + ${conMod * Math.floor(hp / (conMod + 1))})`;
+            allyData.stats["Bonificador de Ataque"] = `+${attackBonus}`;
+            allyData.stats["Salvaciones"] = `DES +${savingThrows.DES}, SAB +${savingThrows.SAB}`;
+            allyData.stats["Acción especial"] = specialAction;
+            allyData.stats["Lealtad"] = loyalty;
+            allyData.stats["EXP"] = allyData.stats["EXP"] || 0;
+            allyData.stats["Nivel"] = allyData.level;
+            allyData.stats["Inventario"] = inventory.join(", ");
+            allyData.classSkills = classSkills;
+
+            // Llenar secciones de la tarjeta
+            console.log('generateAllyCard: antes de statsHighlight');
+            const statsHighlight = card.querySelector('#stats-highlight');
+            console.log('generateAllyCard: statsHighlight:', statsHighlight);
+            if (statsHighlight) {
+                statsHighlight.innerHTML = `
+                    <div class="hp-highlight"><i class="fas fa-heart stat-icon"></i>Puntos de Golpe: ${allyData.stats.HP}</div>
+                    <div><i class="fas fa-shield-alt stat-icon"></i>Clase de Armadura: ${allyData.stats.CA}</div>
+                    <div><i class="fas fa-dice-d20 stat-icon"></i>${primaryStat}: ${allyData.stats[primaryStat]}</div>
+                `;
+            } else {
+                console.error('generateAllyCard: statsHighlight no encontrado');
+            }
+            console.log('generateAllyCard: antes de statsDetail');
+            const statsDetail = card.querySelector('#stats-detail');
+            console.log('generateAllyCard: statsDetail:', statsDetail);
+            if (statsDetail) {
+                statsDetail.innerHTML = `
+                    <div><i class="fas fa-running stat-icon"></i>Velocidad: ${allyData.stats.Velocidad}</div>
+                    <div><i class="fas fa-dice-d20 stat-icon"></i>Destreza: ${allyData.stats.DES}</div>
+                    <div><i class="fas fa-heart stat-icon"></i>Constitución: ${allyData.stats.CON}</div>
+                    <div><i class="fas fa-brain stat-icon"></i>Inteligencia: ${allyData.stats.INT}</div>
+                    <div><i class="fas fa-eye stat-icon"></i>Sabiduría: ${allyData.stats.SAB}</div>
+                    <div><i class="fas fa-fire stat-icon"></i>Carisma: ${allyData.stats.CAR}</div>
+                    <div><i class="fas fa-dice stat-icon"></i>Daño típico: ${allyData.stats.Daño}</div>
+                    <div><i class="fas fa-sword stat-icon"></i>Bonificador de Ataque: ${allyData.stats["Bonificador de Ataque"]}</div>
+                    <div><i class="fas fa-shield stat-icon"></i>Salvaciones: ${allyData.stats["Salvaciones"]}</div>
+                    <div><i class="fas fa-compass stat-icon"></i>Acción especial: ${allyData.stats["Acción especial"]}</div>
+                    <div><i class="fas fa-handshake stat-icon"></i>Lealtad: <span class="loyalty-indicator ${loyalty === 'Alta' ? 'loyalty-high' : loyalty === 'Media' ? 'loyalty-medium' : 'loyalty-low'}">${allyData.stats["Lealtad"]}</span></div>
+                    <button class="action-button" onclick="useSpecialAction()">Usar Acción Especial</button>
+                    <button class="exp-button" onclick="gainExperience()">Ganar EXP</button>
+                    <div id="action-result"></div>
+                    <div id="exp-result"></div>
+                    <div id="dialogue-result"></div>
+                `;
+            }
+            console.log('generateAllyCard: antes de narrative');
+            const narrative = card.querySelector('#narrative');
+            console.log('generateAllyCard: narrative:', narrative);
+            if (narrative) {
+                narrative.innerHTML = `
+                    <i class="fas fa-book narrative-icon"></i>${allyData.name}, ${allyData.description}. <i class="fas fa-heart narrative-icon"></i>${allyData.loyaltyNote}. Encontrada en: <i class="fas fa-tree narrative-icon"></i>${allyData.habitat}.
+                `;
+            }
+            console.log('generateAllyCard: antes de abilities');
+            const abilities = card.querySelector('#abilities-content');
+            console.log('generateAllyCard: abilities:', abilities);
+            if (abilities) abilities.textContent = allyData.abilities.join(', ') || 'Sin items';
+            console.log('generateAllyCard: antes de classAbilities');
+            const classAbilities = card.querySelector('#class-skills-content');
+            console.log('generateAllyCard: classAbilities:', classAbilities);
+            if (classAbilities) classAbilities.textContent = allyData.classSkills.join(', ') || 'Sin habilidades';
+            console.log('generateAllyCard: antes de skillButtons');
+            const skillButtons = card.querySelector('#skill-buttons');
+            console.log('generateAllyCard: skillButtons:', skillButtons);
+            if (skillButtons) skillButtons.innerHTML = allyData.classSkills.map(skill => `<button class="skill-button" onclick="useSkill('${skill}')">${skill}</button>`).join(' ');
+            console.log('generateAllyCard: antes de traits');
+            const traits = card.querySelector('#traits-content');
+            console.log('generateAllyCard: traits:', traits);
+            if (traits) traits.textContent = allyData.traits.join(', ') || 'Sin rasgos';
+            console.log('generateAllyCard: antes de inventorySection');
+            const inventorySection = card.querySelector('#inventory-content');
+            console.log('generateAllyCard: inventorySection:', inventorySection);
+            if (inventorySection) inventorySection.textContent = allyData.stats["Inventario"];
+
+            console.log('generateAllyCard: antes de table');
+            const table = card.querySelector('#stats-table');
+            console.log('generateAllyCard: table:', table);
+            if (table) {
+                table.innerHTML = '';
+                for (const [key, value] of Object.entries(allyData.stats)) {
+                    const row = table.insertRow();
+                    row.insertCell().textContent = key;
+                    row.insertCell().textContent = value;
+                }
+            }
+        }
+
+        // Funciones de interacción
+        let actionIndex = 0;
+        window.useSpecialAction = function() {
+            const table = document.querySelector('#ally-card-container .stats-table');
+            if (!table) return;
+            const d20 = Math.floor(window.rng() * 20) + 1;
+            const actions = table.rows[table.rows.length - 8].cells[1].textContent.split(" / ");
+            const currentAction = actions[actionIndex % actions.length].trim();
+            let result;
+
+            if (currentAction.startsWith("+") && currentAction.includes("a Exploración")) {
+                const bonus = parseInt(currentAction.match(/\+\d+/)[0]);
+                result = d20 + bonus;
+                document.getElementById('action-result').textContent = `Exploración: ${result} (1d20 + ${bonus})`;
+            } else if (currentAction.includes("Curación")) {
+                const die = parseInt(currentAction.match(/\d+/)[0]);
+                result = Math.floor(window.rng() * die) + 1;
+                document.getElementById('action-result').textContent = `Curación: +${result} PV (1d${die})`;
+            }
+            actionIndex++;
+            generateDialogueResponse();
+        };
+
+        window.gainExperience = function() {
+            const table = document.querySelector('#ally-card-container .stats-table');
+            if (!table) return;
+            let exp = parseInt(table.rows[table.rows.length - 5].cells[1].textContent) || 0;
+            exp += 100;
+            let level = parseInt(table.rows[table.rows.length - 4].cells[1].textContent) || 1;
+
+            if (exp >= level * 300) {
+                level++;
+                exp = 0;
+                document.getElementById('exp-result').textContent = `¡${window.ally.name} sube a Nivel ${level}!`;
+                window.ally.level = level.toString();
+                window.ally.stats = customizeStats(window.ally.role.split(" ")[0], level);
+                generateAllyCard(window.ally);
+            } else {
+                document.getElementById('exp-result').textContent = `${window.ally.name} gana 100 EXP. Total: ${exp} EXP`;
+            }
+            table.rows[table.rows.length - 5].cells[1].textContent = exp;
+            table.rows[table.rows.length - 4].cells[1].textContent = level;
+            window.ally.stats.EXP = exp;
+            checkLoyaltyShift();
+        };
+
+        function generateDialogueResponse() {
+            const table = document.querySelector('#ally-card-container .stats-table');
+            if (!table) return;
+            let charismaMod = 0;
+            for (let i = 0; i < table.rows.length; i++) {
+                if (table.rows[i].cells[0].textContent === "CAR") {
+                    const carValue = table.rows[i].cells[1].textContent;
+                    charismaMod = parseInt(carValue.split('+')[1]) || 0;
+                    break;
+                }
+            }
+            const loyalty = table.rows[table.rows.length - 6].cells[1].textContent;
+            const dialogue = generateDialogue(loyalty, charismaMod);
+            document.getElementById('dialogue-result').textContent = `${window.ally.name} dice: "${dialogue}"`;
+        }
+
+        function checkLoyaltyShift() {
+            const table = document.querySelector('#ally-card-container .stats-table');
+            if (!table) return;
+            let charismaMod = 0;
+            for (let i = 0; i < table.rows.length; i++) {
+                if (table.rows[i].cells[0].textContent === "CAR") {
+                    const carValue = table.rows[i].cells[1].textContent;
+                    charismaMod = parseInt(carValue.split('+')[1]) || 0;
+                    break;
+                }
+            }
+            const currentLoyalty = table.rows[table.rows.length - 6].cells[1].textContent;
+            const roll = Math.floor(window.rng() * 20) + 1;
+
+            if (currentLoyalty === "Baja" && roll < 5 - charismaMod) {
+                table.rows[table.rows.length - 6].cells[1].textContent = "Desleal";
+                document.getElementById('dialogue-result').textContent = `${window.ally.name} dice: "¡Me voy por mi cuenta!" (Desleal)`;
+            } else if (currentLoyalty === "Media" && roll > 15 + charismaMod) {
+                table.rows[table.rows.length - 6].cells[1].textContent = "Alta";
+                document.getElementById('dialogue-result').textContent = `${window.ally.name} dice: "¡Confío más en ti ahora!" (Lealtad a Alta)`;
+            }
+        }
+
+        window.useSkill = function(skill) {
+            const table = document.querySelector('#ally-card-container .stats-table');
+            if (!table) return;
+            const level = table.rows[table.rows.length - 4].cells[1].textContent;
+            const result = useClassSkill(skill, level);
+            document.getElementById('action-result').textContent = `${skill}: ${result}`;
+            generateDialogueResponse();
+        };
+
+        window.saveAlly = function() {
+            if (window.ally) {
+                localStorage.setItem('savedAlly', JSON.stringify(window.ally));
+                alert(`${window.ally.name} ha sido guardado.`);
+            } else {
+                alert('No hay aliado para guardar.');
+            }
+        };
+
+        window.loadAlly = function() {
+            const savedAlly = localStorage.getItem('savedAlly');
+            if (savedAlly) {
+                window.ally = JSON.parse(savedAlly);
+                const allyCard = document.getElementById('ally-card-container');
+                if (allyCard) {
+                    allyCard.style.display = 'block';
+                    generateAllyCard(window.ally);
+                }
+            } else {
+                alert('No hay aliado guardado.');
+            }
+        };
+
+        // Función para generar aliado de ejemplo
+        // Simula generateAlly pero simplificada
+        window.generateSampleAlly = function() {
+            const skills = ["Combate", "Magia", "Sigilo", "Conocimiento", "Curación", "Persuasión"];
+            const race = safeRandom(["Humano", "Elfo", "Enano", "Mediano", "Gnomo", "Tiefling"]);
+            const className = safeRandom(["Guerrero", "Mago", "Clérigo", "Pícaro", "Bárbaro", "Bardo"]);
+            const skill = safeRandom(skills);
+            const trait = safeRandom(["Valiente", "Astuto", "Fuerte", "Sabio", "Hábil", "Leal"]);
+            const role = `${className} leal`;
+            const level = "1";
+            const randomName = safeRandom(allyNames);
+            const description = `una ${race.toLowerCase()} que busca aventuras`;
+            const loyaltyNote = `Leal mientras se cumpla su código`;
+            const habitat = safeRandom(["Bosque encantado", "Montaña nevada", "Ruinas antiguas", "Desierto ardiente", "Cueva profunda", "Ciudad flotante"]);
+
+            window.ally = {
+                name: randomName,
+                type: race,
+                role: role,
+                level: level,
+                description: description,
+                loyaltyNote: loyaltyNote,
+                habitat: habitat,
+                stats: customizeStats(className, level),
+                abilities: [skill, "Percepción"],
+                traits: [trait, safeRandom(["Valiente", "Astuto", "Fuerte", "Sabio", "Hábil", "Leal"])],
+                specialAction: "+2 a Exploración / +1d4 Curación",
+                classSkills: generateClassSkills(className)
+            };
+
+            const allyCard = document.getElementById('ally-card-container');
+            if (allyCard) {
+                allyCard.style.display = 'block';
+                generateAllyCard(window.ally);
+            }
+        };
+    </script>
+</body>
+</html>

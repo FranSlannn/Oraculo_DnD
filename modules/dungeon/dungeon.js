@@ -258,3 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const genDungeon = document.getElementById('generate-dungeon');
     if (genDungeon) genDungeon.addEventListener('click', generateDungeon);
 });
+
+// Expose functions globally
+window.generateRoom = generateRoom;
+window.generateTrap = generateTrap;
+window.generatePuzzle = generatePuzzle;
+window.clearDungeon = clearDungeon;
+window.generateDungeon = generateDungeon;

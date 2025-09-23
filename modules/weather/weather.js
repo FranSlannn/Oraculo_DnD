@@ -20,3 +20,7 @@ function clearWeather() {
     if (result) result.textContent = '';
     logger('weather', 'clearWeather', 'Limpieza completada');
 }
+
+// Expose functions globally
+window.generateWeather = generateWeather;
+window.clearWeather = clearWeather;

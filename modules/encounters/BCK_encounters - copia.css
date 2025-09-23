@@ -1,0 +1,467 @@
+/* =========================================================================
+   Estilos para Tarjeta de Monstruo - Estilo D&D 5e
+   =========================================================================
+   Diseño basado en la tarjeta de aliado, con estadísticas en la parte superior,
+   atributos en fila horizontal con iconos, y paleta de colores más oscura y terrorífica.
+   ========================================================================= */
+
+/* Variables CSS para consistencia */
+:root {
+    --primary-bg: #2a1e1e; /* Negro rojizo, como sangre seca */
+    --border-color: #6b0f0f; /* Rojo oscuro */
+    --text-color: #e0d4b0; /* Beige claro para contraste */
+    --accent-color: #8b0000; /* Rojo sangre */
+    --highlight-bg: #3c2f2f; /* Marrón oscuro con tinte rojizo */
+    --button-bg: #6b0f0f; /* Rojo oscuro */
+    --button-hover: #4b0a0a; /* Rojo más oscuro */
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+.monster-card {
+    background-color: var(--primary-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 650px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    position: relative;
+    width: 100%;
+    display: none; /* Initially hidden */
+    animation: fadeIn 1s ease-in-out;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png'); /* Textura de cuero oscuro */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.monster-name-container {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 10px;
+}
+
+.monster-name {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--accent-color);
+    text-shadow: 1px 1px 2px var(--shadow-color);
+}
+
+.monster-meta {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ability-scores {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: var(--highlight-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: inset 0 1px 3px var(--shadow-color);
+}
+
+.stat-box {
+    text-align: center;
+    width: 16%;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: #3a2d2d; /* Tono más oscuro */
+}
+
+.stat-icon {
+    font-size: 18px;
+    color: var(--accent-color);
+}
+
+.stat-title {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--text-color);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.stat-mod {
+    font-size: 12px;
+    color: #b0a8a8; /* Gris claro */
+}
+
+.stats-highlight {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    background: var(--highlight-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: inset 0 1px 3px var(--shadow-color);
+}
+
+.stats-highlight > div {
+    flex: 1;
+    font-size: 16px;
+    text-align: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.hp-highlight {
+    background: linear-gradient(90deg, #4b0a0a 0%, #6b0f0f 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: bold;
+    box-shadow: 0 1px 2px var(--shadow-color);
+}
+
+.stat-icon {
+    margin-right: 8px;
+    color: var(--accent-color);
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.stat-icon:hover {
+    color: #a11212; /* Rojo más claro */
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 18px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.section-title i {
+    margin-right: 10px;
+}
+
+.section-content {
+    padding-left: 15px;
+    font-size: 14px;
+    color: var(--text-color);
+    list-style-type: disc;
+}
+
+@media (max-width: 480px) {
+    .monster-card { padding: 15px; }
+    .monster-name { font-size: 28px; }
+    .ability-scores { flex-wrap: wrap; justify-content: center; }
+    .stat-box { width: 30%; margin: 5px; }
+    .stats-highlight { flex-direction: column; }
+    .stats-highlight > div { margin-bottom: 15px; }
+}
+
+/* =========================================================================
+   Estilos mejorados para Tarjeta de Aliado - Estilo D&D 5e
+   =========================================================================
+   Consolidadas estadísticas en la parte superior. Bloque de atributos en fila horizontal con iconos, estilo de ficha D&D.
+   Añadido display: none a los divs de resultados cuando están vacíos.
+   ========================================================================= */
+
+/* Variables CSS para consistencia en ally-card */
+:root {
+    --ally-primary-bg: #f5f5dc; /* Beige claro como pergamino */
+    --ally-border-color: #8b4513; /* Marrón oscuro */
+    --ally-text-color: #000000; /* Negro */
+    --ally-accent-color: #d4a017; /* Dorado */
+    --ally-highlight-bg: #fff8e5; /* Beige muy claro */
+    --ally-button-bg: #8b4513; /* Marrón */
+    --ally-button-hover: #654321; /* Marrón oscuro */
+    --ally-loyalty-high: #28a745; /* Verde */
+    --ally-loyalty-medium: #ffc107; /* Amarillo */
+    --ally-loyalty-low: #dc3545; /* Rojo */
+    --ally-shadow-color: rgba(0,0,0,0.2);
+}
+
+body {
+    font-family: "Times New Roman", serif;
+    background-color: #e0d4b0; /* Fondo más fantástico */
+    color: var(--ally-text-color);
+    margin: 0;
+    padding: 20px;
+    background-image: url('https://www.transparenttextures.com/patterns/old-map.png'); /* Textura de mapa antiguo */
+    background-repeat: repeat;
+}
+
+.ally-card {
+    background-color: var(--ally-primary-bg);
+    border: 2px solid var(--ally-border-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 650px;
+    box-shadow: 0 4px 8px var(--ally-shadow-color);
+    position: relative;
+    width: 100%;
+    display: block;
+    animation: fadeIn 1s ease-in-out; /* Animación de aparición */
+    background-image: url('https://www.transparenttextures.com/patterns/paper.png'); /* Textura de papel */
+}
+
+.ally-name-container {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed var(--ally-border-color);
+    padding-bottom: 10px;
+}
+
+.ally-name {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--ally-border-color);
+    text-shadow: 1px 1px 2px var(--ally-shadow-color);
+}
+
+.ally-type {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ally-text-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ability-scores {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: var(--ally-highlight-bg);
+    border: 1px solid var(--ally-border-color);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: inset 0 1px 3px var(--ally-shadow-color);
+}
+
+.stat-box {
+    text-align: center;
+    width: 16%;
+    padding: 5px;
+    border: 1px solid var(--ally-border-color);
+    border-radius: 4px;
+    background: #fffef0; /* Blanco roto */
+}
+
+.stat-icon {
+    font-size: 18px;
+    color: var(--ally-accent-color);
+}
+
+.stat-title {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.stat-mod {
+    font-size: 12px;
+    color: #555;
+}
+
+.stats-highlight {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    background: var(--ally-highlight-bg);
+    border: 1px solid var(--ally-border-color);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: inset 0 1px 3px var(--ally-shadow-color);
+}
+
+.stats-highlight > div {
+    flex: 1;
+    font-size: 16px;
+    text-align: center;
+    animation: pulse 2s infinite; /* Animación sutil de pulso */
+}
+
+.hp-highlight {
+    background: linear-gradient(90deg, #f8e7b0 0%, #f0d77b 100%);
+    border: 1px solid #d1b75c;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: bold;
+    box-shadow: 0 1px 2px var(--ally-shadow-color);
+}
+
+.stat-icon {
+    margin-right: 8px;
+    color: var(--ally-accent-color);
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.stat-icon:hover {
+    color: #b8860b; /* Dorado oscuro */
+}
+
+.stats-detail {
+    background: var(--ally-highlight-bg);
+    border: 1px dashed var(--ally-border-color);
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    box-shadow: inset 0 1px 3px var(--ally-shadow-color);
+}
+
+.narrative {
+    background: var(--ally-highlight-bg);
+    border: 1px dashed var(--ally-border-color);
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.narrative-icon {
+    margin-right: 8px;
+    color: var(--ally-accent-color);
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-weight: bold;
+    color: var(--ally-border-color);
+    font-size: 18px;
+    border-bottom: 1px solid var(--ally-border-color);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.section-title i {
+    margin-right: 10px;
+}
+
+.section-content {
+    padding-left: 15px;
+    font-size: 14px;
+    color: var(--ally-text-color);
+    list-style-type: disc; /* Para listas más D&D */
+}
+
+#skill-buttons {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.skill-button {
+    background: linear-gradient(90deg, #b68b2d 0%, #a0782a 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px var(--ally-shadow-color);
+    font-size: 13px;
+}
+
+.skill-button:hover {
+    background: linear-gradient(90deg, #9a7225 0%, #8a6520 100%);
+    transform: scale(1.1); /* Animación de escala */
+    box-shadow: 0 4px 8px var(--ally-shadow-color);
+}
+
+.action-button, .exp-button, .save-button, .load-button {
+    background-color: var(--ally-button-bg);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 5px;
+    box-shadow: 0 2px 4px var(--ally-shadow-color);
+}
+
+.action-button:hover, .exp-button:hover, .save-button:hover, .load-button:hover {
+    background-color: var(--ally-button-hover);
+    transform: translateY(-2px);
+}
+
+.loyalty-indicator {
+    font-size: 16px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.loyalty-high { color: var(--ally-loyalty-high); }
+.loyalty-medium { color: var(--ally-loyalty-medium); }
+.loyalty-low, .loyalty-disloyal { color: var(--ally-loyalty-low); }
+
+#action-result, #exp-result, #dialogue-result {
+    margin-top: 15px;
+    font-size: 14px;
+    color: var(--ally-text-color);
+    background: var(--ally-highlight-bg);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px dashed var(--ally-border-color);
+    display: none; /* Ocultar cuando están vacíos */
+}
+
+#action-result:not(:empty), #exp-result:not(:empty), #dialogue-result:not(:empty) {
+    display: block; /* Mostrar cuando tienen contenido */
+}
+
+@media (max-width: 480px) {
+    .ally-card { padding: 15px; }
+    .ally-name { font-size: 28px; }
+    .ability-scores { flex-wrap: wrap; justify-content: center; }
+    .stat-box { width: 30%; margin: 5px; }
+    .stats-highlight { flex-direction: column; }
+    .stats-highlight > div { margin-bottom: 15px; }
+    .action-button, .exp-button, .save-button, .load-button {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+}

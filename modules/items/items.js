@@ -18,6 +18,10 @@ function generateItem() {
     logger('items', 'generateItem', 'Objeto generado y mostrado');
 }
 
+// Expose functions globally
+window.generateItem = generateItem;
+window.clearItems = clearItems;
+
 function clearItems() {
     logger('items', 'clearItems', 'Iniciando limpieza del historial y resultados de objetos');
     const history = document.getElementById('item-history');

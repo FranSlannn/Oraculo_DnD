@@ -8,7 +8,41 @@
     <link rel="stylesheet" href="StyleIndex.css">
     <script src="lib/seedrandom.min.js"></script>
     <script src="constants.js"></script>
-    <script src="monsters.json" type="application/json" id="monsters-data"></script>
+    <script>
+        // Simple LCG seeded random function
+        function seededRandom(seed) {
+            let m = 2**31 - 1; // modulus
+            let a = 16807; // multiplier
+            let c = 0; // increment
+            let x = seed % m;
+            return function() {
+                x = (a * x + c) % m;
+                return x / m;
+            };
+        }
+
+        // Initialize rng
+        window.rng = seededRandom(Date.now());
+        console.log('window.rng initialized with LCG seeded random');
+    </script>
+    <script>
+        // Función auxiliar global para elemento aleatorio
+        window.getRandomElement = function(array) {
+            if (!Array.isArray(array) || array.length === 0) {
+                logger('global', 'getRandomElement', 'Array inválido o vacío', { array });
+                return null;
+            }
+            if (typeof window.rng !== 'function') {
+                console.error('window.rng is not a function');
+                return array[0] || null;
+            }
+            const randomValue = window.rng();
+            const index = Math.floor(randomValue * array.length);
+            const element = array[index];
+            logger('global', 'getRandomElement', `Usando window.rng(), valor random: ${randomValue}, índice: ${index}, elemento: ${element}`, { arrayLength: array.length });
+            return element;
+        };
+    </script>
 </head>
 <body>
     <div class="container">
@@ -53,6 +87,7 @@
             <button class="tab-button" onclick="openTab('character', this)">Personaje</button>
             <button class="tab-button" onclick="openTab('stress', this)">Estrés</button>
             <button class="tab-button" onclick="openTab('social', this)">Social</button>
+            <button class="tab-button" onclick="openTab('dice', this)">Dados</button>
         </div>
 
         <!-- Contenido de Pestañas -->
@@ -74,6 +109,7 @@
         <div id="character" class="tab-content"></div>
         <div id="stress" class="tab-content"></div>
         <div id="social" class="tab-content"></div>
+        <div id="dice" class="tab-content"></div>
     </div>
 
     <!-- Panel de Logs -->
@@ -89,7 +125,6 @@
         // Variables globales
         let monsters = {};
         let plotPoints = 0;
-        let rng = Math.random; // Default RNG
 
         // Cargar datos iniciales
         document.addEventListener('DOMContentLoaded', function() {
@@ -101,15 +136,20 @@
 
         // Cargar monsters.json
         function loadMonsters() {
-            const script = document.getElementById('monsters-data');
-            if (script) {
-                try {
-                    window.monsters = JSON.parse(script.textContent);
+            fetch('./monsters.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    window.monsters = data;
                     console.log('Monsters loaded, keys:', Object.keys(window.monsters).length);
-                } catch (e) {
-                    console.error('Error parsing monsters.json:', e);
-                }
-            }
+                })
+                .catch(error => {
+                    console.error('Error loading monsters.json:', error);
+                });
         }
 
         // Sistema de pestañas
@@ -125,7 +165,7 @@
 
         // Precarga de módulos
         function preloadModules() {
-            const modules = ['oracle', 'encounters', 'npcs', 'names', 'combat', 'narrative', 'rumors', 'dungeon', 'tension', 'items', 'weather', 'goals', 'journal', 'loot', 'inventory', 'character', 'stress', 'social'];
+            const modules = ['oracle', 'encounters', 'npcs', 'names', 'combat', 'narrative', 'rumors', 'dungeon', 'tension', 'items', 'weather', 'goals', 'journal', 'loot', 'inventory', 'character', 'stress', 'social', 'dice'];
             modules.forEach(module => {
                 console.log('Intentando cargar módulo: ' + module);
                 try {
@@ -144,6 +184,21 @@
                             const script = document.createElement('script');
                             script.src = scriptSrc;
                             document.body.appendChild(script);
+
+                            // Cargar CSS si existe
+                            const cssSrc = `modules/${module}/${module}.css`;
+                            fetch(cssSrc)
+                                .then(response => {
+                                    if (response.ok) {
+                                        const link = document.createElement('link');
+                                        link.rel = 'stylesheet';
+                                        link.href = cssSrc;
+                                        document.head.appendChild(link);
+                                    } else {
+                                        throw new Error('CSS not found');
+                                    }
+                                })
+                                .catch(() => {}); // Ignorar si no existe
                         })
                         .catch(error => {
                             console.error(`Error loading ${module}:`, error);
@@ -184,8 +239,12 @@
         function setSeed() {
             const seed = document.getElementById('seed-input').value;
             if (seed) {
-                rng = new Math.seedrandom(seed);
-                alert('Semilla establecida: ' + seed);
+                if (typeof Math.seedrandom === 'function') {
+                    window.rng = Math.seedrandom(seed);
+                    alert('Semilla establecida: ' + seed);
+                } else {
+                    alert('Math.seedrandom no disponible');
+                }
             }
         }
 
@@ -263,6 +322,25 @@
                 button.textContent = '▼';
             }
         }
+
+        // Expose global functions for modules
+        window.displayResult = displayResult;
+        window.addToHistory = addToHistory;
+        window.exportHistory = exportHistory;
+
+        // Debug logs for styles
+        setTimeout(() => {
+            console.log('Debug: Body background-color:', getComputedStyle(document.body).backgroundColor);
+            console.log('Debug: Body color:', getComputedStyle(document.body).color);
+            console.log('Debug: Body font-family:', getComputedStyle(document.body).fontFamily);
+            const container = document.querySelector('.container');
+            if (container) {
+                console.log('Debug: Container background-color:', getComputedStyle(container).backgroundColor);
+                console.log('Debug: Container color:', getComputedStyle(container).color);
+            } else {
+                console.log('Debug: Container not found');
+            }
+        }, 1000); // Delay to ensure CSS is loaded
     </script>
 </body>
 </html>

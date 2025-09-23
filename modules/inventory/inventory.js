@@ -8,10 +8,10 @@ function addGold() {
     logger('inventory', 'addGold', `Cantidad a añadir: ${amount}`);
     if (amount > 0) {
         gold += amount;
+        addToHistory('inventory', `Añadido ${amount} oro. Total: ${gold}`);
         logger('inventory', 'addGold', `Oro total ahora: ${gold}`);
         updateInventoryDisplay();
         saveInventory();
-        addToHistory('inventory', `Añadido ${amount} oro`);
         logger('inventory', 'addGold', 'Oro añadido');
     } else {
         logger('inventory', 'addGold', 'Cantidad inválida, no se añadió oro');
@@ -25,10 +25,10 @@ function addItem() {
     logger('inventory', 'addItem', `Ítem: ${name}, Peso: ${weight}`);
     if (name) {
         inventory.push({ name, weight });
+        addToHistory('inventory', `Añadido ítem: ${name} (${weight} kg)`);
         logger('inventory', 'addItem', `Ítem añadido, inventario ahora tiene ${inventory.length} items`);
         updateInventoryDisplay();
         saveInventory();
-        addToHistory('inventory', `Añadido ítem: ${name} (${weight} kg)`);
         logger('inventory', 'addItem', 'Ítem añadido');
     } else {
         logger('inventory', 'addItem', 'Nombre inválido, no se añadió ítem');
@@ -57,7 +57,6 @@ function removeItem(index) {
     logger('inventory', 'removeItem', `Ítem eliminado: ${item.name}`);
     updateInventoryDisplay();
     saveInventory();
-    addToHistory('inventory', `Eliminado ítem: ${item.name}`);
     logger('inventory', 'removeItem', 'Ítem eliminado');
 }
 
@@ -67,6 +66,21 @@ function saveInventory() {
     localStorage.setItem('gold', gold);
     logger('inventory', 'saveInventory', 'Inventario guardado');
 }
+
+function clearInventory() {
+    const historyDiv = document.getElementById('inventory-history');
+    if (historyDiv) {
+        const items = historyDiv.querySelectorAll('.history-item');
+        items.forEach(item => item.remove());
+    }
+    displayResult('inventory', 'Historial limpiado');
+}
+
+// Expose functions globally
+window.addGold = addGold;
+window.addItem = addItem;
+window.removeItem = removeItem;
+window.clearInventory = clearInventory;
 
 // Inicializar
 updateInventoryDisplay();

@@ -22,7 +22,7 @@ function decreaseStress() {
 
 function madnessRoll() {
     logger('stress', 'madnessRoll', 'Realizando rollo de locura');
-    const roll = Math.floor(rng() * 20) + 1;
+    const roll = Math.floor(window.rng() * 20) + 1;
     let effect = 'Ninguno';
     if (roll <= 5) effect = 'Alucinaciones menores';
     else if (roll <= 10) effect = 'Paranoia';
@@ -58,3 +58,9 @@ function saveStress() {
 
 // Inicializar
 updateStressDisplay();
+
+// Expose functions globally
+window.increaseStress = increaseStress;
+window.decreaseStress = decreaseStress;
+window.madnessRoll = madnessRoll;
+window.resetStress = resetStress;

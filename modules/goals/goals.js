@@ -21,3 +21,7 @@ function clearGoals() {
     if (result) result.textContent = '';
     logger('goals', 'clearGoals', 'Limpieza completada');
 }
+
+// Expose functions globally
+window.generateGoalProgress = generateGoalProgress;
+window.clearGoals = clearGoals;
