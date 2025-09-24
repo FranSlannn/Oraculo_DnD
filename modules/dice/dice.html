@@ -1,12 +1,74 @@
-<h2>Dados</h2>
 <div class="controls">
-    <button id="roll-dice">Tirar Dado</button>
+    <div class="dice-selector">
+        <div class="dice-icon d4-icon">d4</div>
+        <span id="dice-d4-count">0</span>
+        <div>
+            <button onclick="updateDiceCount('d4', -1)">−</button>
+            <button onclick="updateDiceCount('d4', 1)">+</button>
+        </div>
+    </div>
+    <div class="dice-selector">
+        <div class="dice-icon d6-icon">d6</div>
+        <span id="dice-d6-count">0</span>
+        <div>
+            <button onclick="updateDiceCount('d6', -1)">−</button>
+            <button onclick="updateDiceCount('d6', 1)">+</button>
+        </div>
+    </div>
+    <div class="dice-selector">
+        <div class="dice-icon d8-icon">d8</div>
+        <span id="dice-d8-count">0</span>
+        <div>
+            <button onclick="updateDiceCount('d8', -1)">−</button>
+            <button onclick="updateDiceCount('d8', 1)">+</button>
+        </div>
+    </div>
+    <div class="dice-selector">
+        <div class="dice-icon d10-icon">d10</div>
+        <span id="dice-d10-count">0</span>
+        <div>
+            <button onclick="updateDiceCount('d10', -1)">−</button>
+            <button onclick="updateDiceCount('d10', 1)">+</button>
+        </div>
+    </div>
+    <div class="dice-selector">
+        <div class="dice-icon d12-icon">d12</div>
+        <span id="dice-d12-count">0</span>
+        <div>
+            <button onclick="updateDiceCount('d12', -1)">−</button>
+            <button onclick="updateDiceCount('d12', 1)">+</button>
+        </div>
+    </div>
+    <div class="dice-selector">
+        <div class="dice-icon d20-icon">d20</div>
+        <span id="dice-d20-count">0</span>
+        <div>
+            <button onclick="updateDiceCount('d20', -1)">−</button>
+            <button onclick="updateDiceCount('d20', 1)">+</button>
+        </div>
+    </div>
+    <div class="dice-selector">
+        <div class="dice-icon d100-icon">d100</div>
+        <span id="dice-d100-count">0</span>
+        <div>
+            <button onclick="updateDiceCount('d100', -1)">−</button>
+            <button onclick="updateDiceCount('d100', 1)">+</button>
+        </div>
+    </div>
+    <div class="modifier-control">
+        <label for="dice-universal-modifier">Modificador Universal:</label>
+        <input type="number" id="dice-universal-modifier" value="0" min="-20" max="20" step="1">
+    </div>
+    <div class="button-group">
+        <button id="dice-roll-button"><i class="fas fa-dice"></i> Tirar Dados</button>
+        <button id="dice-clear-button"><i class="fas fa-trash"></i> Limpiar</button>
+    </div>
 </div>
-<div class="result" id="dice-result">
-    Resultado: -
-</div>
+
+<div id="dice-dice-container"></div>
+
+<div class="result"></div>
+
 <div class="history" id="dice-history">
-    <div class="history-title">Historial de Dados</div>
-    <button onclick="exportHistory('dice')" title="Exportar historial como archivo de texto">Exportar</button>
-    <button onclick="clearDice()">Limpiar</button>
+    <div class="history-title">Historial de Tiradas</div>
 </div>

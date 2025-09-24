@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="modules/encounters/css/allies_card.css">
 <h2>Generador de Encuentros</h2>
 <div class="controls">
     <select id="encounter-location">
@@ -50,10 +51,9 @@
     <button onclick="generateVillain()">Generar Villano</button>
     <button onclick="generateAlly()">Generar Aliado</button>
     <button onclick="generateMonster()">Generar Monstruo</button>
-    <button onclick="generateSampleAlly()"><i class="fas fa-dice-d20"></i> Generar Aliado de Ejemplo</button>
 </div>
 <div class="result" id="encounter-result"></div>
-<div id="ally-card-container" class="ally-card">
+<div id="ally-card-container" class="ally-card" style="display: none;">
     <div class="ally-name-container">
         <div class="ally-name" id="ally-name"></div>
     </div>
@@ -79,13 +79,16 @@
         <div class="section-title"><i class="fas fa-suitcase"></i>Inventario</div>
         <div class="section-content" id="inventory-content"></div>
     </div>
-    <div id="action-result"></div>
-    <div id="exp-result"></div>
-    <div id="dialogue-result"></div>
+    <div id="action-result" style="display: none;"></div>
+    <div id="exp-result" style="display: none;"></div>
+    <div id="dialogue-result" style="display: none;"></div>
     <button class="save-button" onclick="saveAlly()"><i class="fas fa-save"></i> Guardar Aliado</button>
-    <button class="load-button" onclick="loadAlly()"><i class="fas fa-upload"></i> Cargar Aliado</button>
+    </div>
+<div id="ally-loader">
+   <select id="ally-select" style="display: none;"></select>
+   <button class="action-button" onclick="loadAlly()"><i class="fas fa-upload"></i> Cargar Aliado</button>
 </div>
-<div id="monster-card-container" class="monster-card">
+<div id="monster-card-container" class="monster-card" style="display: none;">
     <div class="monster-name-container">
         <div class="monster-name" id="monster-name"></div>
     </div>

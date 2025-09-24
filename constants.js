@@ -691,6 +691,35 @@ const combatActions = [
 ];
 
 // =========================================================================
+// Sección: Progresión por CR para Aliados
+// =========================================================================
+// Tablas para escalar stats de aliados basados en CR, siguiendo DMG para NPCs.
+// Basado en Monster Manual y DMG: HP promedio, proficiency bonus, AC base, attack bonus, damage.
+
+const crProgression = {
+  1: { hpDice: '1d8', proficiencyBonus: 2, acBase: 12, attackBonus: 3, damage: '1d6' },
+  2: { hpDice: '2d8', proficiencyBonus: 2, acBase: 13, attackBonus: 3, damage: '1d6+1' },
+  3: { hpDice: '3d8', proficiencyBonus: 2, acBase: 13, attackBonus: 3, damage: '1d8' },
+  4: { hpDice: '4d8', proficiencyBonus: 2, acBase: 14, attackBonus: 4, damage: '1d8+1' },
+  5: { hpDice: '5d8', proficiencyBonus: 3, acBase: 15, attackBonus: 5, damage: '1d10' },
+  6: { hpDice: '6d8', proficiencyBonus: 3, acBase: 15, attackBonus: 5, damage: '1d10+1' },
+  7: { hpDice: '7d8', proficiencyBonus: 3, acBase: 15, attackBonus: 5, damage: '1d12' },
+  8: { hpDice: '8d8', proficiencyBonus: 3, acBase: 16, attackBonus: 6, damage: '1d12+1' },
+  9: { hpDice: '9d8', proficiencyBonus: 4, acBase: 16, attackBonus: 6, damage: '2d6' },
+  10: { hpDice: '10d8', proficiencyBonus: 4, acBase: 17, attackBonus: 7, damage: '2d6+1' },
+  11: { hpDice: '11d8', proficiencyBonus: 4, acBase: 17, attackBonus: 7, damage: '2d8' },
+  12: { hpDice: '12d8', proficiencyBonus: 4, acBase: 18, attackBonus: 8, damage: '2d8+1' },
+  13: { hpDice: '13d8', proficiencyBonus: 5, acBase: 18, attackBonus: 8, damage: '2d10' },
+  14: { hpDice: '14d8', proficiencyBonus: 5, acBase: 18, attackBonus: 8, damage: '2d10+1' },
+  15: { hpDice: '15d8', proficiencyBonus: 5, acBase: 18, attackBonus: 9, damage: '2d12' },
+  16: { hpDice: '16d8', proficiencyBonus: 5, acBase: 19, attackBonus: 9, damage: '2d12+1' },
+  17: { hpDice: '17d8', proficiencyBonus: 6, acBase: 19, acBase: 19, attackBonus: 10, damage: '3d6' },
+  18: { hpDice: '18d8', proficiencyBonus: 6, acBase: 20, attackBonus: 10, damage: '3d6+1' },
+  19: { hpDice: '19d8', proficiencyBonus: 6, acBase: 20, attackBonus: 10, damage: '3d8' },
+  20: { hpDice: '20d8', proficiencyBonus: 6, acBase: 20, attackBonus: 11, damage: '3d8+1' }
+};
+
+// =========================================================================
 // Sección: Botín (Tablas por rareza)
 // =========================================================================
 

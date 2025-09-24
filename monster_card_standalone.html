@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Monstruo - Standalone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="modules/encounters/css/monsters_card.css">
+    <style>
+            /* =========================================================================
+               Estilos para Tarjeta de Monstruo - Estilo D&D 5e
+               =========================================================================
+               Diseño basado en la tarjeta de aliado, con estadísticas en la parte superior,
+               atributos en fila horizontal con iconos, y paleta de colores más oscura y terrorífica.
+               ========================================================================= */
+    
+            /* Variables CSS para consistencia */
+            :root {
+                --primary-bg: #2a1e1e; /* Negro rojizo, como sangre seca */
+                --border-color: #6b0f0f; /* Rojo oscuro */
+                --text-color: #e0d4b0; /* Beige claro para contraste */
+                --accent-color: #8b0000; /* Rojo sangre */
+                --highlight-bg: #3c2f2f; /* Marrón oscuro con tinte rojizo */
+                --button-bg: #6b0f0f; /* Rojo oscuro */
+                --button-hover: #4b0a0a; /* Rojo más oscuro */
+                --shadow-color: rgba(0, 0, 0, 0.5);
+            }
+    
+            body {
+                font-family: "Times New Roman", serif;
+                background-color: #1a0f0f; /* Fondo oscuro para ambiente terrorífico */
+                color: var(--text-color);
+                margin: 0;
+                padding: 20px;
+                background-image: url('https://www.transparenttextures.com/patterns/dark-mosaic.png'); /* Textura oscura */
+                background-repeat: repeat;
+            }
+    
+            .monster-card {
+                background-color: var(--primary-bg);
+                border: 2px solid var(--border-color);
+                border-radius: 12px;
+                padding: 25px;
+                margin: 20px auto;
+                max-width: 650px;
+                box-shadow: 0 4px 8px var(--shadow-color);
+                position: relative;
+                width: 100%;
+                display: block;
+                animation: fadeIn 1s ease-in-out;
+                background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png'); /* Textura de cuero oscuro */
+            }
+    
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+    
+            .monster-name-container {
+                text-align: center;
+                margin-bottom: 20px;
+                border-bottom: 1px dashed var(--border-color);
+                padding-bottom: 10px;
+            }
+    
+            .monster-name {
+                font-size: 32px;
+                font-weight: bold;
+                color: var(--accent-color);
+                text-shadow: 1px 1px 2px var(--shadow-color);
+            }
+    
+            .monster-meta {
+                font-size: 16px;
+                font-style: italic;
+                color: var(--text-color);
+                text-align: center;
+                margin-bottom: 20px;
+            }
+    
+            .ability-scores {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                background: var(--highlight-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 15px;
+                box-shadow: inset 0 1px 3px var(--shadow-color);
+            }
+    
+            .stat-box {
+                text-align: center;
+                width: 16%;
+                padding: 5px;
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                background: #3a2d2d; /* Tono más oscuro */
+            }
+    
+            .stat-icon {
+                font-size: 18px;
+                color: var(--accent-color);
+            }
+    
+            .stat-title {
+                font-size: 14px;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: var(--text-color);
+            }
+    
+            .stat-value {
+                font-size: 24px;
+                font-weight: bold;
+                color: var(--text-color);
+            }
+    
+            .stat-mod {
+                font-size: 12px;
+                color: #b0a8a8; /* Gris claro */
+            }
+    
+            .stats-highlight {
+                display: flex;
+                justify-content: space-around;
+                margin-bottom: 20px;
+                background: var(--highlight-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 15px;
+                box-shadow: inset 0 1px 3px var(--shadow-color);
+            }
+    
+            .stats-highlight > div {
+                flex: 1;
+                font-size: 16px;
+                text-align: center;
+                animation: pulse 2s infinite;
+            }
+    
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+    
+            .hp-highlight {
+                background: linear-gradient(90deg, #4b0a0a 0%, #6b0f0f 100%);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                padding: 8px 12px;
+                font-weight: bold;
+                box-shadow: 0 1px 2px var(--shadow-color);
+            }
+    
+            .stat-icon {
+                margin-right: 8px;
+                color: var(--accent-color);
+                font-size: 18px;
+                transition: color 0.3s;
+            }
+    
+            .stat-icon:hover {
+                color: #a11212; /* Rojo más claro */
+            }
+    
+            .section {
+                margin-bottom: 20px;
+            }
+    
+            .section-title {
+                font-weight: bold;
+                color: var(--accent-color);
+                font-size: 18px;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 6px;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+            }
+    
+            .section-title i {
+                margin-right: 10px;
+            }
+    
+            .section-content {
+                padding-left: 15px;
+                font-size: 14px;
+                color: var(--text-color);
+                list-style-type: disc;
+            }
+    
+            .generate-button {
+                background-color: var(--button-bg);
+                color: var(--text-color);
+                border: none;
+                border-radius: 6px;
+                padding: 10px 15px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: background-color 0.3s, transform 0.2s;
+                margin: 5px;
+                box-shadow: 0 2px 4px var(--shadow-color);
+            }
+    
+            .generate-button:hover {
+                background-color: var(--button-hover);
+                transform: translateY(-2px);
+            }
+    
+            @media (max-width: 480px) {
+                .monster-card { padding: 15px; }
+                .monster-name { font-size: 28px; }
+                .ability-scores { flex-wrap: wrap; justify-content: center; }
+                .stat-box { width: 30%; margin: 5px; }
+                .stats-highlight { flex-direction: column; }
+                .stats-highlight > div { margin-bottom: 15px; }
+                .generate-button {
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin-bottom: 10px;
+                }
+            }
+        </style>
+</head>
+<body>
+    <h1>Tarjeta de Monstruo - Standalone</h1>
+    <p>Esta página contiene únicamente la tarjeta del monstruo generada, con HTML, CSS y JS necesarios.</p>
+
+    <!-- HTML de la tarjeta del monstruo -->
+    <div id="monster-card-container" class="monster-card">
+        <div class="monster-name-container">
+            <div class="monster-name" id="monster-name"></div>
+        </div>
+        <div class="monster-meta" id="monster-meta"></div>
+        <div class="stats-highlight" id="stats-highlight"></div>
+        <div class="ability-scores" id="ability-scores"></div>
+        <div class="section">
+            <div class="section-title"><i class="fas fa-cogs"></i>Rasgos</div>
+            <div id="traits-content"></div>
+        </div>
+        <div class="section">
+            <div class="section-title"><i class="fas fa-sword"></i>Acciones</div>
+            <div id="actions-content"></div>
+        </div>
+        <div class="section">
+            <div class="section-title"><i class="fas fa-star"></i>Acciones Legendarias</div>
+            <div id="legendary-actions-content"></div>
+        </div>
+    </div>
+
+    <button class="generate-button" onclick="generateSampleMonster()">Generar Monstruo de Ejemplo</button>
+
+    <script>
+        // =========================================================================
+        // JavaScript para Tarjeta de Monstruo - Standalone
+        // =========================================================================
+
+        // Función para generar datos de monstruo de ejemplo
+        window.generateSampleMonster = function() {
+            const monsterData = {
+                name: "Dragón Rojo Antiguo",
+                size: "Gargantuesco",
+                type: "dragón",
+                alignment: "caótico maligno",
+                hp: "546 (28d20 + 252)",
+                ac: "22 (armadura natural)",
+                speed: "40 pies, volar 80 pies, nadar 40 pies",
+                str: "30 (+10)",
+                dex: "10 (+0)",
+                con: "30 (+10)",
+                int: "18 (+4)",
+                wis: "15 (+2)",
+                cha: "23 (+6)",
+                traits: [
+                    "Armadura Legendaria. Cuando falla una tirada de salvación, puede elegir tener éxito en su lugar.",
+                    "Resistencia Mágica. Ventaja en salvaciones contra conjuros y efectos mágicos."
+                ],
+                actions: [
+                    "Ataque múltiple. El dragón puede usar su Presencia Aterradora. Luego realiza tres ataques: uno con su mordida y dos con sus garras.",
+                    "Mordida. Ataque de arma cuerpo a cuerpo: +17 al golpe, alcance 15 pies, un objetivo. Impacto: 21 (2d10 + 10) de daño perforante más 14 (4d6) de daño de fuego.",
+                    "Garra. Ataque de arma cuerpo a cuerpo: +17 al golpe, alcance 10 pies, un objetivo. Impacto: 17 (2d6 + 10) de daño cortante.",
+                    "Cola. Ataque de arma cuerpo a cuerpo: +17 al golpe, alcance 20 pies, un objetivo. Impacto: 19 (2d8 + 10) de daño contundente.",
+                    "Presencia Aterradora. Cada criatura a elección del dragón dentro de 120 pies de él y consciente de su presencia debe superar una tirada de salvación de Sabiduría CD 21 o quedar asustada durante 1 minuto."
+                ],
+                legendaryActions: [
+                    "Detectar. El dragón realiza una comprobación de Sabiduría (Percepción).",
+                    "Ataque de cola. El dragón realiza un ataque con la cola.",
+                    "Ataque de alas. El dragón bate las alas. Cada criatura en un radio de 15 pies debe superar una tirada de salvación de Destreza CD 25 o recibir 15 (2d6 + 8) de daño contundente y ser derribada al suelo."
+                ]
+            };
+
+            generateMonsterCard(monsterData);
+        };
+
+        // Función para llenar la tarjeta del monstruo
+        function generateMonsterCard(monsterData) {
+            function parseStat(stat) {
+                const parts = stat.split(' ');
+                return { value: parts[0], mod: parts[1] || '' };
+            }
+            const str = parseStat(monsterData.str);
+            const dex = parseStat(monsterData.dex);
+            const con = parseStat(monsterData.con);
+            const int = parseStat(monsterData.int);
+            const wis = parseStat(monsterData.wis);
+            const cha = parseStat(monsterData.cha);
+            document.getElementById('monster-name').innerHTML = `<i class="fas fa-dragon"></i> ${monsterData.name}`;
+            document.getElementById('monster-meta').textContent = `${monsterData.size} ${monsterData.type}, ${monsterData.alignment}`;
+            document.getElementById('stats-highlight').innerHTML = `
+                <div class="hp-highlight"><i class="fas fa-heart stat-icon"></i>HP: ${monsterData.hp}</div>
+                <div><i class="fas fa-shield-alt stat-icon"></i>AC: ${monsterData.ac}</div>
+                <div><i class="fas fa-running stat-icon"></i>Velocidad: ${monsterData.speed}</div>
+            `;
+            document.getElementById('ability-scores').innerHTML = `
+                <div class="stat-box">
+                    <i class="stat-icon fas fa-dumbbell"></i>
+                    <div class="stat-title">FUE</div>
+                    <div class="stat-value">${str.value}</div>
+                    <div class="stat-mod">${str.mod}</div>
+                </div>
+                <div class="stat-box">
+                    <i class="stat-icon fas fa-feather"></i>
+                    <div class="stat-title">DES</div>
+                    <div class="stat-value">${dex.value}</div>
+                    <div class="stat-mod">${dex.mod}</div>
+                </div>
+                <div class="stat-box">
+                    <i class="stat-icon fas fa-heart"></i>
+                    <div class="stat-title">CON</div>
+                    <div class="stat-value">${con.value}</div>
+                    <div class="stat-mod">${con.mod}</div>
+                </div>
+                <div class="stat-box">
+                    <i class="stat-icon fas fa-brain"></i>
+                    <div class="stat-title">INT</div>
+                    <div class="stat-value">${int.value}</div>
+                    <div class="stat-mod">${int.mod}</div>
+                </div>
+                <div class="stat-box">
+                    <i class="stat-icon fas fa-eye"></i>
+                    <div class="stat-title">SAB</div>
+                    <div class="stat-value">${wis.value}</div>
+                    <div class="stat-mod">${wis.mod}</div>
+                </div>
+                <div class="stat-box">
+                    <i class="stat-icon fas fa-fire"></i>
+                    <div class="stat-title">CAR</div>
+                    <div class="stat-value">${cha.value}</div>
+                    <div class="stat-mod">${cha.mod}</div>
+                </div>
+            `;
+            document.getElementById('traits-content').innerHTML = `<ul class="section-content traits">${monsterData.traits.map(trait => `<li>${trait}</li>`).join('')}</ul>`;
+            document.getElementById('actions-content').innerHTML = `<ul class="section-content actions">${monsterData.actions.map(action => `<li>${action}</li>`).join('')}</ul>`;
+            document.getElementById('legendary-actions-content').innerHTML = `<ul class="section-content legendary-actions">${monsterData.legendaryActions.map(action => `<li>${action}</li>`).join('')}</ul>`;
+        }
+    </script>
+</body>
+</html>

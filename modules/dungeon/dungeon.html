@@ -1,27 +1,39 @@
 <h2>Generador de Mazmorras</h2>
+<p>Explora mazmorras inmersivas con grupos de enemigos, eventos narrativos, un jefe final, pasillos orgánicos, objetos, puzles y trampas. ¡Encuentra la Cámara del Tesoro!</p>
+
 <div class="controls">
-    <button onclick="generateRoom()">Generar Habitación</button>
-    <button onclick="generateTrap()">Generar Trampa</button>
-    <button onclick="generatePuzzle()">Generar Puzle</button>
-    <button onclick="clearDungeon()">Limpiar</button>
-    <br>
+    <button onclick="generateRoom()"><i class="fas fa-door-open"></i> Generar Habitación</button>
+    <button onclick="generateTrap()"><i class="fas fa-skull"></i> Generar Trampa</button>
+    <button onclick="generatePuzzle()"><i class="fas fa-puzzle-piece"></i> Generar Puzle</button>
+    <button onclick="clearDungeon()"><i class="fas fa-trash"></i> Limpiar</button>
+    <button onclick="exportDungeon()"><i class="fas fa-download"></i> Exportar Mapa</button>
+</div>
+
+<div class="dungeon-size-selector">
     <select id="dungeon-size">
         <option value="small">Pequeña (3x3)</option>
         <option value="medium">Mediana (5x5)</option>
         <option value="large">Grande (7x7)</option>
     </select>
-    <button id="generate-dungeon">Generar Mazmorra</button>
+    <button id="generate-dungeon"><i class="fas fa-dungeon"></i> Generar Mazmorra</button>
 </div>
-<div id="dungeon-map"></div>
-<div id="dungeon-legend">
-    <div class="legend-cell" data-type="dungeon-room">Habitación (R)</div>
-    <div class="legend-cell" data-type="corridor">Pasillo (C)</div>
-    <div class="legend-cell" data-type="object">Objeto (O)</div>
-    <div class="legend-cell" data-type="puzzle">Puzle (P)</div>
-    <div class="legend-cell" data-type="trap">Trampa (T)</div>
-    <div class="legend-cell" data-type="empty">Vacío</div>
-</div>
+
 <div class="result" id="dungeon-result"></div>
+
+<div id="dungeon-map"></div>
+
+<div id="dungeon-legend">
+    <div class="legend-title">Leyenda</div>
+    <span class="legend-cell" data-type="dungeon-room"><i class="fas fa-door-open"></i> Habitación</span>
+    <span class="legend-cell" data-type="dungeon-room has-enemy"><i class="fas fa-skull-crossbones"></i> Enemigo</span>
+    <span class="legend-cell" data-type="dungeon-room has-boss"><i class="fas fa-dragon"></i> Jefe</span>
+    <span class="legend-cell" data-type="corridor"><i class="fas fa-link"></i> Pasillo</span>
+    <span class="legend-cell" data-type="object"><i class="fas fa-gem"></i> Objeto</span>
+    <span class="legend-cell" data-type="puzzle"><i class="fas fa-puzzle-piece"></i> Puzle</span>
+    <span class="legend-cell" data-type="trap"><i class="fas fa-skull"></i> Trampa</span>
+    <span class="legend-cell" data-type="empty"><i class="fas fa-ban"></i> Vacío</span>
+</div>
+
 <div class="history" id="dungeon-history">
-    <div class="history-title">Historial de Mazmorra</div>
+    <div class="history-title">Diario de Exploración</div>
 </div>

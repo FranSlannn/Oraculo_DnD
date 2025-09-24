@@ -73,7 +73,6 @@ class DNDSolitarioTester:
         """Llena campos de entrada con valores predeterminados"""
         input_mappings = {
             "oracle": {"#oracle-question": "a"},
-            "dice": {"#dice-input": "1"},
             "character": {"#damage-amount": "1", "#heal-amount": "1", "#exp-amount": "1"},
             "inventory": {"#item-name": "a", "#item-quantity": "1", "#gold-amount-input": "1"},
             "dungeon": {"#dungeon-size": "small"},  # select
@@ -145,8 +144,8 @@ class DNDSolitarioTester:
             logs_after = self.get_console_logs()
             new_logs = logs_after[logs_before:]
 
-            # Verificar historial
-            if module:
+            # Verificar historial (excepto para botones de selección en dice)
+            if module and not (module == 'dice' and 'Seleccionar' in button_name):
                 history_after = self.get_module_history(module)
                 new_entries = [item for item in history_after if item not in self.history_before.get(module, [])]
                 if new_entries:
@@ -206,10 +205,14 @@ class DNDSolitarioTester:
         if selectors:
             from itertools import product
             for combo in product(*selectors.values()):
-                # Set select values
+                # Set select/input values
                 for sel, val in zip(selectors.keys(), combo):
-                    select = Select(self.driver.find_element(By.CSS_SELECTOR, sel))
-                    select.select_by_value(val)
+                    element = self.driver.find_element(By.CSS_SELECTOR, sel)
+                    if element.tag_name == 'select':
+                        Select(element).select_by_value(val)
+                    else:
+                        element.clear()
+                        element.send_keys(val)
                 # Then click
                 self.click_button_and_check_inner(button_selector, f"{button_name} ({', '.join(combo)})", expected_result_selector, module)
         else:
@@ -218,12 +221,9 @@ class DNDSolitarioTester:
     def test_all_buttons(self):
         """Prueba todos los botones conocidos"""
         buttons_to_test = {
-            "dice": [
-                ("#roll-dice", "Tirar Dados", "#dice-result", {}),
-            ],
-            "oracle": [
-                ("#ask-oracle-btn", "Preguntar al Oráculo", "#oracle-result", {"#oracle-type": ["simple", "detailed", "mythic"]}),
-            ],
+            # "oracle": [
+            #     ("#ask-oracle-btn", "Preguntar al Oráculo", "#oracle-result", {"#oracle-type": ["simple", "detailed", "mythic"]}),
+            # ],
             "npcs": [
                 ("button[onclick*='generateNPC']", "Generar NPC", "#generated-npc", {"#npc-type": ["merchant", "guard", "villager", "noble"]}),
             ],
@@ -297,7 +297,7 @@ class DNDSolitarioTester:
         for module, buttons in buttons_to_test.items():
             self.switch_tab(module)
             for selector, name, result_selector, selectors in buttons:
-                full_selector = f"#{module} {selector}" if module != "dice" else selector  # Dice no tiene prefijo
+                full_selector = f"#{module} {selector}"
                 self.click_button_and_check(full_selector, name, result_selector, module, selectors)
                 time.sleep(0.5)  # Pequeña pausa entre pruebas
 

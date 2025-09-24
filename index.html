@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D&D Solitario - Oráculos y Generadores</title>
-    <link rel="stylesheet" href="lib/all.min.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="StyleIndex.css">
     <script src="lib/seedrandom.min.js"></script>
     <script src="constants.js"></script>
@@ -74,6 +74,7 @@
             <button class="tab-button" onclick="openTab('npcs', this)">PNJs</button>
             <button class="tab-button" onclick="openTab('names', this)">Nombres</button>
             <button class="tab-button" onclick="openTab('combat', this)">Combate</button>
+            <button class="tab-button" onclick="openTab('dice', this)">Dados</button>
             <button class="tab-button" onclick="openTab('narrative', this)">Narrativa</button>
             <button class="tab-button" onclick="openTab('rumors', this)">Rumores</button>
             <button class="tab-button" onclick="openTab('dungeon', this)">Mazmorra</button>
@@ -87,7 +88,6 @@
             <button class="tab-button" onclick="openTab('character', this)">Personaje</button>
             <button class="tab-button" onclick="openTab('stress', this)">Estrés</button>
             <button class="tab-button" onclick="openTab('social', this)">Social</button>
-            <button class="tab-button" onclick="openTab('dice', this)">Dados</button>
         </div>
 
         <!-- Contenido de Pestañas -->
@@ -96,6 +96,7 @@
         <div id="npcs" class="tab-content"></div>
         <div id="names" class="tab-content"></div>
         <div id="combat" class="tab-content"></div>
+        <div id="dice" class="tab-content"></div>
         <div id="narrative" class="tab-content"></div>
         <div id="rumors" class="tab-content"></div>
         <div id="dungeon" class="tab-content"></div>
@@ -109,7 +110,6 @@
         <div id="character" class="tab-content"></div>
         <div id="stress" class="tab-content"></div>
         <div id="social" class="tab-content"></div>
-        <div id="dice" class="tab-content"></div>
     </div>
 
     <!-- Panel de Logs -->
@@ -165,7 +165,7 @@
 
         // Precarga de módulos
         function preloadModules() {
-            const modules = ['oracle', 'encounters', 'npcs', 'names', 'combat', 'narrative', 'rumors', 'dungeon', 'tension', 'items', 'weather', 'goals', 'journal', 'loot', 'inventory', 'character', 'stress', 'social', 'dice'];
+            const modules = ['oracle', 'encounters', 'npcs', 'names', 'combat', 'dice', 'narrative', 'rumors', 'dungeon', 'tension', 'items', 'weather', 'goals', 'journal', 'loot', 'inventory', 'character', 'stress', 'social'];
             modules.forEach(module => {
                 console.log('Intentando cargar módulo: ' + module);
                 try {
@@ -285,7 +285,10 @@
                 item.className = 'history-item';
                 item.innerHTML = text;
                 historyDiv.appendChild(item);
-                historyDiv.scrollTop = historyDiv.scrollHeight;
+                if (historyDiv.children.length > 50) {
+                    historyDiv.removeChild(historyDiv.firstChild);
+                }
+                historyDiv.scrollTop = 0;
             }
         }
 

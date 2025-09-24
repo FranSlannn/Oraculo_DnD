@@ -1,0 +1,215 @@
+/* =========================================================================
+   Estilos para Tarjeta de Monstruo - Estilo D&D 5e
+   =========================================================================
+   Diseño basado en la tarjeta de aliado, con estadísticas en la parte superior,
+   atributos en fila horizontal con iconos, y paleta de colores más oscura y terrorífica.
+   ========================================================================= */
+
+/* Variables CSS para consistencia */
+:root {
+    --monster-primary-bg: #0a0a0a; /* Negro profundo con tinte rojizo para terror */
+    --monster-border-color: #2f1b1b; /* Rojo oscuro sangre seca */
+    --monster-text-color: #f5deb3; /* Beige arena para alto contraste */
+    --monster-accent-color: #dc143c; /* Rojo carmesí intenso */
+    --monster-highlight-bg: #1c1c1c; /* Gris muy oscuro con tinte negro */
+    --monster-button-bg: #2f1b1b; /* Rojo oscuro para botones */
+    --monster-button-hover: #451717; /* Rojo más oscuro para hover */
+    --monster-shadow-color: rgba(139, 0, 0, 0.4); /* Sombra roja sutil */
+}
+
+body {
+    font-family: "Times New Roman", serif;
+    background-color: #0f0a0a; /* Fondo negro rojizo para terror intenso */
+    color: var(--monster-text-color);
+    margin: 0;
+    padding: 20px;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-mosaic.png'); /* Textura oscura */
+    background-repeat: repeat;
+}
+
+.monster-card.monster-card {
+    background-color: var(--monster-primary-bg) !important;
+    border: 2px solid var(--monster-border-color) !important;
+    border-radius: 12px !important;
+    padding: 25px !important;
+    margin: 20px auto !important;
+    max-width: 650px !important;
+    box-shadow: 0 4px 8px var(--monster-shadow-color) !important;
+    position: relative !important;
+    width: 100% !important;
+    display: block !important;
+    animation: fadeIn 1s ease-in-out !important;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png') !important; /* Textura de cuero oscuro */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.monster-name-container {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed var(--monster-border-color);
+    padding-bottom: 10px;
+}
+
+.monster-card .monster-name {
+    font-size: 32px !important;
+    font-weight: bold !important;
+    color: var(--monster-accent-color) !important;
+    text-shadow: 1px 1px 2px var(--monster-shadow-color) !important;
+}
+
+.monster-card .monster-meta {
+    font-size: 16px !important;
+    font-style: italic !important;
+    color: var(--monster-text-color) !important;
+    text-align: center !important;
+    margin-bottom: 20px !important;
+}
+
+.ability-scores {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: var(--monster-highlight-bg);
+    border: 1px solid var(--monster-border-color);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: inset 0 1px 3px var(--monster-shadow-color);
+}
+
+.monster-card .stat-box {
+    text-align: center !important;
+    width: 16% !important;
+    padding: 5px !important;
+    border: 1px solid var(--monster-border-color) !important;
+    border-radius: 4px !important;
+    background: var(--monster-highlight-bg) !important; /* Usar variable */
+}
+
+.stat-icon {
+    font-size: 18px;
+    color: var(--monster-accent-color);
+}
+
+.stat-title {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--monster-text-color);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--monster-text-color);
+}
+
+.stat-mod {
+    font-size: 12px;
+    color: #b0a8a8; /* Gris claro */
+}
+
+.stats-highlight {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    background: var(--monster-highlight-bg);
+    border: 1px solid var(--monster-border-color);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: inset 0 1px 3px var(--monster-shadow-color);
+}
+
+.stats-highlight > div {
+    flex: 1;
+    font-size: 16px;
+    text-align: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.hp-highlight {
+    background: linear-gradient(90deg, #4b0a0a 0%, #6b0f0f 100%);
+    border: 1px solid var(--monster-border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: bold;
+    box-shadow: 0 1px 2px var(--monster-shadow-color);
+}
+
+.stat-icon {
+    margin-right: 8px;
+    color: var(--monster-accent-color);
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.stat-icon:hover {
+    color: #a11212; /* Rojo más claro */
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.monster-card .section-title {
+    font-weight: bold !important;
+    color: var(--monster-accent-color) !important;
+    font-size: 18px !important;
+    border-bottom: 1px solid var(--monster-border-color) !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.section-title i {
+    margin-right: 10px;
+}
+
+.monster-card .section-content {
+    padding-left: 15px !important;
+    font-size: 14px !important;
+    color: var(--monster-text-color) !important;
+    list-style-type: disc !important;
+}
+
+.generate-button {
+    background-color: var(--monster-button-bg);
+    color: var(--monster-text-color);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 5px;
+    box-shadow: 0 2px 4px var(--monster-shadow-color);
+}
+
+.generate-button:hover {
+    background-color: var(--monster-button-hover);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+    .monster-card { padding: 15px; }
+    .monster-name { font-size: 28px; }
+    .ability-scores { flex-wrap: wrap; justify-content: center; }
+    .stat-box { width: 30%; margin: 5px; }
+    .stats-highlight { flex-direction: column; }
+    .stats-highlight > div { margin-bottom: 15px; }
+    .generate-button {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+}

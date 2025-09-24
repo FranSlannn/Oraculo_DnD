@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Dados - D&D Solitario</title>
+
+    <!--
+    ============================================================================
+    DEPENDENCIAS EXTERNAS
+    ============================================================================
+    Este archivo incluye todas las dependencias necesarias para que el módulo de dados funcione de forma independiente.
+    En el sistema global, estas dependencias se cargan desde index.html.
+    -->
+
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+
+    <!-- Seedrandom para generación de números aleatorios reproducibles -->
+    <script src="lib/seedrandom.min.js"></script>
+
+    <!--
+    ============================================================================
+    ESTILOS CSS DEL MÓDULO DE DADOS
+    ============================================================================
+    Los estilos definen la apariencia visual del módulo de dados, incluyendo selectores de dados,
+    contenedores de resultados, historial y diseño responsivo. Se integran con las variables CSS
+    globales del sistema (definidas en StyleIndex.css en el sistema completo).
+    -->
+    <style>
+        /* Variables CSS para colores y temas - simuladas para funcionamiento independiente */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --text: #ecf0f1;
+            --dark: #1a252f;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            --history-bg: #34495e;
+            --history-border: #7f8c8d;
+            --history-text: #ecf0f1;
+            --dice-d4-color: #b87333;
+            --dice-d6-color: #c0c0c0;
+            --dice-d8-color: #ffd700;
+            --dice-d10-color: #43464b;
+            --dice-d12-color: #b5a642;
+            --dice-d20-color: #e5e4e2;
+            --dice-d100-color: #43464b;
+        }
+
+        /* Estilos del cuerpo para simular el entorno global */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--dark);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--primary);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* =========================================================================
+           dice.css - Estilos para el módulo de Dados
+           ========================================================================= */
+        :root {
+          --dice-d4-color: #b87333; /* bronze */
+          --dice-d6-color: #c0c0c0; /* silver */
+          --dice-d8-color: #ffd700; /* gold */
+          --dice-d10-color: #43464b; /* iron */
+          --dice-d12-color: #b5a642; /* brass */
+          --dice-d20-color: #e5e4e2; /* platinum */
+          --dice-d100-color: #43464b; /* same as d10 */
+        }
+
+        #dice .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            justify-items: center;
+        }
+
+        #dice .dice-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background-color: var(--primary);
+            border: 1px solid var(--accent);
+            border-radius: var(--border-radius);
+            padding: 10px;
+            box-shadow: var(--box-shadow);
+        }
+
+        #dice .dice-icon {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary);
+            background-color: var(--dark);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        #dice .d4-icon {
+          background-color: var(--dice-d4-color);
+          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+          border-radius: 0;
+        }
+
+        #dice .d6-icon {
+          background-color: var(--dice-d6-color);
+          clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+          border-radius: 0;
+        }
+
+        #dice .d8-icon {
+          background-color: var(--dice-d8-color);
+          clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+          border-radius: 0;
+        }
+
+        #dice .d10-icon {
+          background-color: var(--dice-d10-color);
+          clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+          border-radius: 0;
+        }
+
+        #dice .d12-icon {
+          background-color: var(--dice-d12-color);
+          clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+          border-radius: 0;
+        }
+
+        #dice .d20-icon {
+          background-color: var(--dice-d20-color);
+          clip-path: polygon(50% 0%, 100% 38.2%, 81.6% 100%, 18.4% 100%, 0% 38.2%);
+          border-radius: 0;
+        }
+
+        #dice .d100-icon {
+          background-color: var(--dice-d100-color);
+          clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+          border-radius: 0;
+        }
+
+        #dice .dice-icon:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+            transform: scale(1.1);
+        }
+
+        #dice .dice-selector span {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        #dice .dice-selector div {
+            display: flex;
+            gap: 5px;
+        }
+
+        #dice .dice-selector button {
+            background-color: var(--accent);
+            color: var(--text);
+            border: 1px solid var(--accent);
+            padding: 5px 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 30px;
+        }
+
+        #dice .dice-selector button:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        #dice .modifier-control {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--primary);
+            border: 1px solid var(--accent);
+            border-radius: var(--border-radius);
+            padding: 10px;
+            box-shadow: var(--box-shadow);
+        }
+
+        #dice .modifier-control label {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        #dice .modifier-control input {
+            background-color: var(--primary);
+            color: var(--text);
+            border: 1px solid var(--accent);
+            padding: 8px;
+            border-radius: 4px;
+            width: 80px;
+            text-align: center;
+        }
+
+        #dice .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        #dice .button-group button {
+            background-color: var(--secondary);
+            color: var(--dark);
+            border: 1px solid var(--accent);
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #dice .button-group button:hover {
+            background-color: var(--accent);
+            color: var(--text);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #dice .button-group button i {
+            font-size: 18px;
+        }
+
+        #dice #dice-dice-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            min-height: 100px;
+        }
+
+        #dice .dice {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text);
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: var(--box-shadow);
+        }
+
+        #dice .dice.rolling {
+            animation: roll 1s ease-in-out infinite;
+        }
+
+        @keyframes roll {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(0.9); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        #dice .dice.d4 {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+
+        #dice .dice.d6 {
+            background: linear-gradient(45deg, var(--primary), #8c4310);
+        }
+
+        #dice .dice.d8 {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+        }
+
+        #dice .dice.d10 {
+            background: linear-gradient(45deg, var(--primary), #d9a555);
+        }
+
+        #dice .dice.d12 {
+            background: linear-gradient(45deg, var(--primary), var(--goal-complete));
+        }
+
+        #dice .dice.d20 {
+            background: linear-gradient(45deg, var(--primary), var(--rumor-color));
+        }
+
+        #dice .dice.d100 {
+            background: linear-gradient(45deg, var(--primary), var(--quest-color));
+        }
+
+        #dice .result {
+            background-color: var(--primary);
+            border: 1px solid var(--accent);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 16px;
+            color: var(--text);
+            box-shadow: var(--box-shadow);
+        }
+
+        #dice .history {
+            background-color: var(--history-bg);
+            border: 1px solid var(--history-border);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        #dice .history-title {
+            font-weight: bold;
+            color: var(--history-text);
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--history-border);
+            padding-bottom: 5px;
+            font-size: 18px;
+        }
+
+        #dice .history-item {
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: var(--primary);
+            border-radius: 4px;
+            border-left: 3px solid var(--accent);
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #dice .controls {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            #dice .dice-selector {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 8px;
+            }
+
+            #dice .dice-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            #dice .dice-selector span {
+                font-size: 16px;
+            }
+
+            #dice .modifier-control {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            #dice .modifier-control input {
+                width: 60px;
+            }
+
+            #dice .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #dice .button-group button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #dice #dice-dice-container {
+                gap: 10px;
+            }
+
+            #dice .dice {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            #dice .history {
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #dice .dice-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #dice .dice-selector div {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            #dice .modifier-control {
+                flex-direction: column;
+            }
+
+            #dice .modifier-control input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Módulo de Dados - Sistema Completo</h1>
+
+        <!--
+        ============================================================================
+        CONTENIDO HTML DEL MÓDULO DE DADOS
+        ============================================================================
+        Esta sección contiene la estructura HTML del módulo de dados. Incluye controles
+        para seleccionar la cantidad de cada tipo de dado, un modificador universal,
+        botones para tirar y limpiar, el contenedor de dados visuales, el área de resultados
+        y el historial de tiradas. Se integra con el sistema global mediante el ID 'dice'
+        y utiliza funciones globales como displayResult y addToHistory.
+        -->
+        <div id="dice">
+            <!-- Controles de selección de dados -->
+            <div class="controls">
+                <!-- Selector para dados d4 -->
+                <div class="dice-selector">
+                    <div class="dice-icon d4-icon">d4</div>
+                    <span id="dice-d4-count">0</span>
+                    <div>
+                        <button onclick="updateDiceCount('d4', -1)">−</button>
+                        <button onclick="updateDiceCount('d4', 1)">+</button>
+                    </div>
+                </div>
+
+                <!-- Selector para dados d6 -->
+                <div class="dice-selector">
+                    <div class="dice-icon d6-icon">d6</div>
+                    <span id="dice-d6-count">0</span>
+                    <div>
+                        <button onclick="updateDiceCount('d6', -1)">−</button>
+                        <button onclick="updateDiceCount('d6', 1)">+</button>
+                    </div>
+                </div>
+
+                <!-- Selector para dados d8 -->
+                <div class="dice-selector">
+                    <div class="dice-icon d8-icon">d8</div>
+                    <span id="dice-d8-count">0</span>
+                    <div>
+                        <button onclick="updateDiceCount('d8', -1)">−</button>
+                        <button onclick="updateDiceCount('d8', 1)">+</button>
+                    </div>
+                </div>
+
+                <!-- Selector para dados d10 -->
+                <div class="dice-selector">
+                    <div class="dice-icon d10-icon">d10</div>
+                    <span id="dice-d10-count">0</span>
+                    <div>
+                        <button onclick="updateDiceCount('d10', -1)">−</button>
+                        <button onclick="updateDiceCount('d10', 1)">+</button>
+                    </div>
+                </div>
+
+                <!-- Selector para dados d12 -->
+                <div class="dice-selector">
+                    <div class="dice-icon d12-icon">d12</div>
+                    <span id="dice-d12-count">0</span>
+                    <div>
+                        <button onclick="updateDiceCount('d12', -1)">−</button>
+                        <button onclick="updateDiceCount('d12', 1)">+</button>
+                    </div>
+                </div>
+
+                <!-- Selector para dados d20 -->
+                <div class="dice-selector">
+                    <div class="dice-icon d20-icon">d20</div>
+                    <span id="dice-d20-count">0</span>
+                    <div>
+                        <button onclick="updateDiceCount('d20', -1)">−</button>
+                        <button onclick="updateDiceCount('d20', 1)">+</button>
+                    </div>
+                </div>
+
+                <!-- Selector para dados d100 -->
+                <div class="dice-selector">
+                    <div class="dice-icon d100-icon">d100</div>
+                    <span id="dice-d100-count">0</span>
+                    <div>
+                        <button onclick="updateDiceCount('d100', -1)">−</button>
+                        <button onclick="updateDiceCount('d100', 1)">+</button>
+                    </div>
+                </div>
+
+                <!-- Control del modificador universal -->
+                <div class="modifier-control">
+                    <label for="dice-universal-modifier">Modificador Universal:</label>
+                    <input type="number" id="dice-universal-modifier" value="0" min="-20" max="20" step="1">
+                </div>
+
+                <!-- Grupo de botones principales -->
+                <div class="button-group">
+                    <button id="dice-roll-button"><i class="fas fa-dice"></i> Tirar Dados</button>
+                    <button id="dice-clear-button"><i class="fas fa-trash"></i> Limpiar</button>
+                </div>
+            </div>
+
+            <!-- Contenedor visual de dados -->
+            <div id="dice-dice-container"></div>
+
+            <!-- Área de resultados -->
+            <div class="result"></div>
+
+            <!-- Historial de tiradas -->
+            <div class="history" id="dice-history">
+                <div class="history-title">Historial de Tiradas</div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    ============================================================================
+    JAVASCRIPT DEL MÓDULO DE DADOS
+    ============================================================================
+    Esta sección contiene la lógica JavaScript completa del módulo de dados.
+    Incluye funciones para gestionar conteos de dados, tirar dados, mostrar resultados,
+    guardar/cargar configuración en localStorage, y manejar la interfaz de usuario.
+    Se integra con el sistema global mediante funciones como logger, displayResult y addToHistory.
+    -->
+
+    <script>
+        // =========================================================================
+        // FUNCIONES GLOBALES SIMULADAS PARA FUNCIONAMIENTO INDEPENDIENTE
+        // =========================================================================
+        // En el sistema global, estas funciones están definidas en index.html
+
+        // Función de logging simple
+        function logger(module, func, message, data = {}) {
+            console.log(`[${module}:${func}] ${message}`, data);
+        }
+
+        // Función para mostrar resultados
+        function displayResult(tab, text) {
+            const resultDiv = document.querySelector(`#${tab} .result`);
+            if (resultDiv) {
+                resultDiv.innerHTML = text;
+            }
+        }
+
+        // Función para añadir al historial
+        function addToHistory(tab, text) {
+            const historyDiv = document.querySelector(`#${tab} .history`);
+            if (historyDiv) {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = text;
+                historyDiv.appendChild(item);
+                if (historyDiv.children.length > 50) {
+                    historyDiv.removeChild(historyDiv.firstChild);
+                }
+                historyDiv.scrollTop = 0;
+            }
+        }
+
+        // Inicialización del generador de números aleatorios
+        window.rng = Math.seedrandom ? Math.seedrandom(Date.now().toString()) : Math.random;
+
+        // =========================================================================
+        // dice.js - Lógica JavaScript para el módulo de Dados
+        // =========================================================================
+
+        console.log('dice.js loaded');
+
+        const diceCounts = {
+            d4: 0,
+            d6: 0,
+            d8: 0,
+            d10: 0,
+            d12: 0,
+            d20: 0,
+            d100: 0
+        };
+
+        const diceColors = {
+            d4: '#b22222',
+            d6: '#228b22',
+            d8: '#1e90ff',
+            d10: '#ff8c00',
+            d12: '#9932cc',
+            d20: '#ffd700',
+            d100: '#4682b4'
+        };
+
+        // Cargar configuración desde localStorage
+        function loadConfig() {
+            console.log('dice loadConfig called');
+            logger('dice', 'loadConfig', 'Cargando configuración desde localStorage');
+            const config = JSON.parse(localStorage.getItem('diceConfig')) || {};
+            diceCounts.d4 = config.d4 || 0;
+            diceCounts.d6 = config.d6 || 0;
+            diceCounts.d8 = config.d8 || 0;
+            diceCounts.d10 = config.d10 || 0;
+            diceCounts.d12 = config.d12 || 0;
+            diceCounts.d20 = config.d20 || 0;
+            diceCounts.d100 = config.d100 || 0;
+            const modifier = config.modifier || 0;
+            document.getElementById('dice-universal-modifier').value = modifier;
+            updateDisplays();
+        }
+
+        // Guardar configuración en localStorage
+        function saveConfig() {
+            logger('dice', 'saveConfig', 'Guardando configuración en localStorage');
+            const config = {
+                ...diceCounts,
+                modifier: parseInt(document.getElementById('dice-universal-modifier').value) || 0
+            };
+            localStorage.setItem('diceConfig', JSON.stringify(config));
+        }
+
+        // Actualizar displays de conteos
+        function updateDisplays() {
+            for (const type in diceCounts) {
+                document.getElementById(`dice-${type}-count`).textContent = diceCounts[type];
+            }
+        }
+
+        // Actualizar conteo de dados
+        function updateDiceCount(type, delta) {
+            logger('dice', 'updateDiceCount', `Actualizando ${type} por ${delta}`);
+            const newCount = Math.max(0, Math.min(5, diceCounts[type] + delta));
+            diceCounts[type] = newCount;
+            document.getElementById(`dice-${type}-count`).textContent = newCount;
+            saveConfig();
+        }
+
+        // Limpiar dados
+        function clearDice() {
+            logger('dice', 'clearDice', 'Limpiando todos los dados y modificador');
+            for (const type in diceCounts) {
+                diceCounts[type] = 0;
+            }
+            document.getElementById('dice-universal-modifier').value = 0;
+            document.getElementById('dice-dice-container').innerHTML = '';
+            displayResult('dice', '');
+            const historyDiv = document.getElementById('dice-history');
+            historyDiv.innerHTML = '<div class="history-title">Historial de Tiradas</div>';
+            saveConfig();
+        }
+
+        // Tirar dados
+        function rollDice() {
+            console.log('dice rollDice called');
+            logger('dice', 'rollDice', 'Tirando dados');
+            const container = document.getElementById('dice-dice-container');
+            container.innerHTML = '';
+            const results = [];
+            let total = 0;
+            let hasDice = false;
+            const modifier = parseInt(document.getElementById('dice-universal-modifier').value) || 0;
+
+            for (const [type, count] of Object.entries(diceCounts)) {
+                if (count > 0) {
+                    hasDice = true;
+                    const sides = parseInt(type.replace('d', ''));
+                    for (let i = 0; i < count; i++) {
+                        const roll = Math.floor(window.rng() * sides) + 1;
+                        results.push({ roll, type });
+                        total += roll;
+                        const dice = createDice(type, roll);
+                        container.appendChild(dice);
+                        dice.classList.add('rolling');
+                        setTimeout(() => {
+                            dice.classList.remove('rolling');
+                            dice.textContent = roll;
+                        }, 1000);
+                    }
+                }
+            }
+
+            if (!hasDice) {
+                displayResult('dice', 'Selecciona al menos un dado para tirar.');
+                return;
+            }
+
+            total += modifier;
+            setTimeout(() => {
+                let resultText = 'Resultados: ';
+                results.forEach(({ roll, type }) => {
+                    resultText += `<span style="color: ${diceColors[type]}">${roll}</span>, `;
+                });
+                resultText = resultText.slice(0, -2); // Remover coma final
+                if (modifier !== 0) {
+                    const modText = modifier > 0 ? `+${modifier}` : modifier;
+                    resultText += ` ${modText}`;
+                }
+                resultText += ` (Total: ${total})`;
+                displayResult('dice', resultText);
+                addToHistory('dice', `[${new Date().toLocaleTimeString()}] ${resultText}`);
+            }, 1000);
+        }
+
+        // Crear elemento dado
+        function createDice(type, result) {
+            const dice = document.createElement('div');
+            dice.className = `dice ${type}`;
+            dice.textContent = '?';
+            return dice;
+        }
+
+        // Inicialización
+        console.log('dice init start');
+        loadConfig();
+        document.getElementById('dice-roll-button').addEventListener('click', rollDice);
+        document.getElementById('dice-clear-button').addEventListener('click', clearDice);
+        console.log('dice init end');
+
+        // Exponer funciones a window
+        window.rollDice = rollDice;
+        window.clearDice = clearDice;
+        window.updateDiceCount = updateDiceCount;
+    </script>
+</body>
+</html>
