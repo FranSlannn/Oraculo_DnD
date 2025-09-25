@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D&D Solitario - Oráculos y Generadores</title>
-    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
     <link rel="stylesheet" href="StyleIndex.css">
     <script src="lib/seedrandom.min.js"></script>
     <script src="constants.js"></script>
@@ -136,7 +136,7 @@
 
         // Cargar monsters.json
         function loadMonsters() {
-            fetch('./monsters.json')
+            fetch('./data/monsters.json')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);

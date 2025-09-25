@@ -99,7 +99,7 @@ def check_html_css_links():
     """Verifica enlaces CSS en archivos HTML."""
     print("\n=== Verificando enlaces CSS en HTML ===")
 
-    html_files = ['modules/encounters/encounters.html', 'ally_card_standalone.html']
+    html_files = ['modules/encounters/encounters.html', 'examples/ally_card_standalone.html']
 
     for html_file in html_files:
         if os.path.exists(html_file):
@@ -119,7 +119,7 @@ def analyze_monster_html():
     """Analiza monster_card_standalone.html para elementos y estilos."""
     print("\n=== Análisis de monster_card_standalone.html ===")
 
-    html_file = 'monster_card_standalone.html'
+    html_file = 'examples/monster_card_standalone.html'
     if not os.path.exists(html_file):
         print(f"ERROR: Archivo {html_file} no encontrado")
         return

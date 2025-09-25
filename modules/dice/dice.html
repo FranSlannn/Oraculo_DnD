@@ -64,6 +64,39 @@
         <button id="dice-clear-button"><i class="fas fa-trash"></i> Limpiar</button>
     </div>
 </div>
+<div class="color-customization">
+    <h3>Personalización de Colores</h3>
+    <div class="color-inputs">
+        <div class="color-input">
+            <label for="color-d4">d4:</label>
+            <input type="color" id="color-d4" value="#b87333" onchange="updateDiceColor('d4', this.value)">
+        </div>
+        <div class="color-input">
+            <label for="color-d6">d6:</label>
+            <input type="color" id="color-d6" value="#c0c0c0" onchange="updateDiceColor('d6', this.value)">
+        </div>
+        <div class="color-input">
+            <label for="color-d8">d8:</label>
+            <input type="color" id="color-d8" value="#ffd700" onchange="updateDiceColor('d8', this.value)">
+        </div>
+        <div class="color-input">
+            <label for="color-d10">d10:</label>
+            <input type="color" id="color-d10" value="#43464b" onchange="updateDiceColor('d10', this.value)">
+        </div>
+        <div class="color-input">
+            <label for="color-d12">d12:</label>
+            <input type="color" id="color-d12" value="#b5a642" onchange="updateDiceColor('d12', this.value)">
+        </div>
+        <div class="color-input">
+            <label for="color-d20">d20:</label>
+            <input type="color" id="color-d20" value="#e5e4e2" onchange="updateDiceColor('d20', this.value)">
+        </div>
+        <div class="color-input">
+            <label for="color-d100">d100:</label>
+            <input type="color" id="color-d100" value="#43464b" onchange="updateDiceColor('d100', this.value)">
+        </div>
+    </div>
+</div>
 
 <div id="dice-dice-container"></div>
 

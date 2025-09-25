@@ -1,6 +1,7 @@
 /* =========================================================================
    dice.css - Estilos para el módulo de Dados
    ========================================================================= */
+
 :root {
   --dice-d4-color: #b87333; /* bronze */
   --dice-d6-color: #c0c0c0; /* silver */
@@ -9,362 +10,495 @@
   --dice-d12-color: #b5a642; /* brass */
   --dice-d20-color: #e5e4e2; /* platinum */
   --dice-d100-color: #43464b; /* same as d10 */
+  --dice-d4-text-color: white;
+  --dice-d6-text-color: black;
+  --dice-d8-text-color: black;
+  --dice-d10-text-color: white;
+  --dice-d12-text-color: black;
+  --dice-d20-text-color: black;
+  --dice-d100-text-color: white;
+  --goal-complete: #27ae60; /* Para gradientes en d12 */
+  --rumor-color: #8e44ad; /* Para gradientes en d20 */
+  --quest-color: #2980b9; /* Para gradientes en d100 */
 }
 
 #dice .controls {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-    justify-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  justify-items: center;
 }
 
 #dice .dice-selector {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    background-color: var(--primary);
-    border: 1px solid var(--accent);
-    border-radius: var(--border-radius);
-    padding: 10px;
-    box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background-color: var(--primary);
+  border: 1px solid var(--accent);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  box-shadow: var(--box-shadow);
 }
 
 #dice .dice-icon {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--secondary);
-    background-color: var(--dark);
-    border: 2px solid var(--accent);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-#dice .d4-icon {
-  background-color: var(--dice-d4-color);
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  border-radius: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text); /* Cambiado a blanco para visibilidad */
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(0,0,0,0.2)), radial-gradient(circle at 70% 70%, rgba(0,0,0,0.1), transparent), var(--dark);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 40% 40%, rgba(0,0,0,0.05) 2px, transparent 2px);
+  background-size: 10px 10px, 15px 15px, 20px 20px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(255,255,255,0.1), 0 4px 8px rgba(0,0,0,0.2), 0 8px 16px rgba(0,0,0,0.1), 0 0 25px rgba(255,255,255,0.05);
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
+  transition: all 0.3s ease;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
 }
 
-#dice .d6-icon {
-  background-color: var(--dice-d6-color);
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  border-radius: 0;
+/* Clases específicas con mayor especificidad y !important para evitar sobrescritura */
+#dice .dice-icon.d4-icon {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d4-color) !important;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d4-color) !important;
+  background-size: 10px 10px, 15px 15px !important;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%) !important;
+  border-radius: 0 !important;
+  color: var(--dice-d4-text-color) !important;
 }
 
-#dice .d8-icon {
-  background-color: var(--dice-d8-color);
-  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-  border-radius: 0;
+#dice .dice-icon.d6-icon {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d6-color) !important;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d6-color) !important;
+  background-size: 10px 10px, 15px 15px !important;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%) !important;
+  border-radius: 0 !important;
+  color: var(--dice-d6-text-color) !important;
 }
 
-#dice .d10-icon {
-  background-color: var(--dice-d10-color);
-  clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
-  border-radius: 0;
+#dice .dice-icon.d8-icon {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d8-color) !important;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d8-color) !important;
+  background-size: 10px 10px, 15px 15px !important;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%) !important;
+  border-radius: 0 !important;
+  color: var(--dice-d8-text-color) !important;
 }
 
-#dice .d12-icon {
-  background-color: var(--dice-d12-color);
-  clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
-  border-radius: 0;
+#dice .dice-icon.d10-icon {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d10-color) !important;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d10-color) !important;
+  background-size: 10px 10px, 15px 15px !important;
+  clip-path: polygon(50% 0%, 90.45% 15.45%, 100% 50%, 90.45% 84.55%, 50% 100%, 9.55% 84.55%, 0% 50%, 9.55% 15.45%) !important;
+  border-radius: 0 !important;
+  color: var(--dice-d10-text-color) !important;
 }
 
-#dice .d20-icon {
-  background-color: var(--dice-d20-color);
-  clip-path: polygon(50% 0%, 100% 38.2%, 81.6% 100%, 18.4% 100%, 0% 38.2%);
-  border-radius: 0;
+#dice .dice-icon.d12-icon {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d12-color) !important;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d12-color) !important;
+  background-size: 10px 10px, 15px 15px !important;
+  clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%) !important;
+  border-radius: 0 !important;
+  color: var(--dice-d12-text-color) !important;
 }
 
-#dice .d100-icon {
-  background-color: var(--dice-d100-color);
-  clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
-  border-radius: 0;
+#dice .dice-icon.d20-icon {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d20-color) !important;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d20-color) !important;
+  background-size: 10px 10px, 15px 15px !important;
+  clip-path: polygon(50% 0%, 100% 38.2%, 81.6% 100%, 18.4% 100%, 0% 38.2%) !important;
+  border-radius: 0 !important;
+  color: var(--dice-d20-text-color) !important;
 }
-    justify-content: center;
-    transition: all 0.3s ease;
+
+#dice .dice-icon.d100-icon {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d100-color) !important;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d100-color) !important;
+  background-size: 10px 10px, 15px 15px !important;
+  clip-path: circle(50% at 50% 50%) !important;
+  border-radius: 0 !important;
+  color: var(--dice-d100-text-color) !important;
 }
 
 #dice .dice-icon:hover {
-    background-color: var(--secondary);
-    color: var(--dark);
-    transform: scale(1.1);
+  background-color: var(--secondary) !important;
+  color: var(--dark) !important;
+  transform: perspective(1000px) rotateX(10deg) rotateY(10deg) scale(1.1);
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.5), inset 0 -3px 6px rgba(255,255,255,0.1), 0 6px 12px rgba(0,0,0,0.4), 0 12px 24px rgba(0,0,0,0.2), 0 0 40px rgba(255,255,255,0.15);
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
 }
 
 #dice .dice-selector span {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--text);
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text);
 }
 
 #dice .dice-selector div {
-    display: flex;
-    gap: 5px;
+  display: flex;
+  gap: 5px;
 }
 
 #dice .dice-selector button {
-    background-color: var(--accent);
-    color: var(--text);
-    border: 1px solid var(--accent);
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 30px;
+  background-color: var(--accent);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 30px;
 }
 
 #dice .dice-selector button:hover {
-    background-color: var(--secondary);
-    color: var(--dark);
-    transform: translateY(-2px);
+  background-color: var(--secondary);
+  color: var(--dark);
+  transform: translateY(-2px);
 }
 
 #dice .modifier-control {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    background-color: var(--primary);
-    border: 1px solid var(--accent);
-    border-radius: var(--border-radius);
-    padding: 10px;
-    box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--primary);
+  border: 1px solid var(--accent);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  box-shadow: var(--box-shadow);
+  margin-bottom: 20px;
 }
 
 #dice .modifier-control label {
-    font-weight: bold;
-    color: var(--secondary);
+  font-weight: bold;
+  color: var(--secondary);
 }
 
 #dice .modifier-control input {
-    background-color: var(--primary);
-    color: var(--text);
-    border: 1px solid var(--accent);
-    padding: 8px;
-    border-radius: 4px;
-    width: 80px;
-    text-align: center;
+  background-color: var(--primary);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  padding: 8px;
+  border-radius: 4px;
+  width: 80px;
+  text-align: center;
 }
 
 #dice .button-group {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 #dice .button-group button {
-    background-color: var(--secondary);
-    color: var(--dark);
-    border: 1px solid var(--accent);
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  background-color: var(--secondary);
+  color: var(--dark);
+  border: 1px solid var(--accent);
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 #dice .button-group button:hover {
-    background-color: var(--accent);
-    color: var(--text);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: var(--accent);
+  color: var(--text);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #dice .button-group button i {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 #dice #dice-dice-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin: 20px 0;
-    min-height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+  min-height: 100px;
 }
 
 #dice .dice {
-    width: 60px;
-    height: 60px;
-    background-color: var(--primary);
-    border: 2px solid var(--accent);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--text);
-    position: relative;
-    transition: all 0.3s ease;
-    box-shadow: var(--box-shadow);
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(0,0,0,0.2)), radial-gradient(circle at 70% 70%, rgba(0,0,0,0.1), transparent), var(--primary);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 40% 40%, rgba(0,0,0,0.05) 2px, transparent 2px);
+  background-size: 10px 10px, 15px 15px, 20px 20px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(255,255,255,0.1), 0 4px 8px rgba(0,0,0,0.2), 0 8px 16px rgba(0,0,0,0.1), 0 0 25px rgba(255,255,255,0.05);
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
+  transition: all 0.3s ease;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
 }
 
 #dice .dice.rolling {
-    animation: roll 1s ease-in-out infinite;
+  animation: roll 1s ease-in-out infinite;
 }
 
 @keyframes roll {
-    0% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(90deg) scale(1.1); }
-    50% { transform: rotate(180deg) scale(1); }
-    75% { transform: rotate(270deg) scale(0.9); }
-    100% { transform: rotate(360deg) scale(1); }
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.1); }
+  50% { transform: rotate(180deg) scale(1); }
+  75% { transform: rotate(270deg) scale(0.9); }
+  100% { transform: rotate(360deg) scale(1); }
 }
 
+#dice .dice:hover {
+  transform: perspective(1000px) rotateX(10deg) rotateY(10deg) scale(1.1);
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.5), inset 0 -3px 6px rgba(255,255,255,0.1), 0 6px 12px rgba(0,0,0,0.4), 0 12px 24px rgba(0,0,0,0.2), 0 0 40px rgba(255,255,255,0.15);
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+  color: white;
+}
+
+/* Estilos para dados animados: Forma y color matching con iconos selectores */
 #dice .dice.d4 {
-    background: linear-gradient(45deg, var(--primary), var(--secondary));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d4-color);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d4-color);
+  background-size: 10px 10px, 15px 15px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  border-radius: 0;
+  color: var(--dice-d4-text-color);
 }
 
 #dice .dice.d6 {
-    background: linear-gradient(45deg, var(--primary), #8c4310);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d6-color);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d6-color);
+  background-size: 10px 10px, 15px 15px;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  border-radius: 0;
+  color: var(--dice-d6-text-color);
 }
 
 #dice .dice.d8 {
-    background: linear-gradient(45deg, var(--primary), var(--accent));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d8-color);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d8-color);
+  background-size: 10px 10px, 15px 15px;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  border-radius: 0;
+  color: var(--dice-d8-text-color);
 }
 
 #dice .dice.d10 {
-    background: linear-gradient(45deg, var(--primary), #d9a555);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d10-color);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d10-color);
+  background-size: 10px 10px, 15px 15px;
+  clip-path: polygon(50% 0%, 90.45% 15.45%, 100% 50%, 90.45% 84.55%, 50% 100%, 9.55% 84.55%, 0% 50%, 9.55% 15.45%);
+  border-radius: 0;
+  color: var(--dice-d10-text-color);
 }
 
 #dice .dice.d12 {
-    background: linear-gradient(45deg, var(--primary), var(--goal-complete));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d12-color);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d12-color);
+  background-size: 10px 10px, 15px 15px;
+  clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  border-radius: 0;
+  color: var(--dice-d12-text-color);
 }
 
 #dice .dice.d20 {
-    background: linear-gradient(45deg, var(--primary), var(--rumor-color));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d20-color);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d20-color);
+  background-size: 10px 10px, 15px 15px;
+  clip-path: polygon(50% 0%, 100% 38.2%, 81.6% 100%, 18.4% 100%, 0% 38.2%);
+  border-radius: 0;
+  color: var(--dice-d20-text-color);
 }
 
 #dice .dice.d100 {
-    background: linear-gradient(45deg, var(--primary), var(--quest-color));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.1)), var(--dice-d100-color);
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), var(--dice-d100-color);
+  background-size: 10px 10px, 15px 15px;
+  clip-path: circle(50% at 50% 50%);
+  border-radius: 0;
+  color: var(--dice-d100-text-color);
 }
 
 #dice .result {
-    background-color: var(--primary);
-    border: 1px solid var(--accent);
-    border-radius: var(--border-radius);
-    padding: 15px;
-    margin-top: 15px;
-    min-height: 100px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    font-size: 16px;
-    color: var(--text);
-    box-shadow: var(--box-shadow);
+  background-color: var(--primary);
+  border: 1px solid var(--accent);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-top: 15px;
+  min-height: 100px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 16px;
+  color: var(--text);
+  box-shadow: var(--box-shadow);
 }
 
 #dice .history {
-    background-color: var(--history-bg);
-    border: 1px solid var(--history-border);
-    border-radius: var(--border-radius);
-    padding: 15px;
-    margin-top: 20px;
-    max-height: 400px;
-    overflow-y: auto;
+  background-color: var(--history-bg);
+  border: 1px solid var(--history-border);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-top: 20px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 #dice .history-title {
-    font-weight: bold;
-    color: var(--history-text);
-    margin-bottom: 10px;
-    border-bottom: 1px solid var(--history-border);
-    padding-bottom: 5px;
-    font-size: 18px;
+  font-weight: bold;
+  color: var(--history-text);
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--history-border);
+  padding-bottom: 5px;
+  font-size: 18px;
 }
 
 #dice .history-item {
-    margin-bottom: 10px;
-    padding: 8px;
-    background-color: var(--primary);
-    border-radius: 4px;
-    border-left: 3px solid var(--accent);
-    color: var(--text);
-    font-size: 14px;
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: var(--primary);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+  color: var(--text);
+  font-size: 14px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    #dice .controls {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
+  #dice .controls {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
 
-    #dice .dice-selector {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 8px;
-    }
+  #dice .dice-selector {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px;
+  }
 
-    #dice .dice-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
+  #dice .dice-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
 
-    #dice .dice-selector span {
-        font-size: 16px;
-    }
+  #dice .dice-selector span {
+    font-size: 16px;
+  }
 
-    #dice .modifier-control {
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-    }
+  #dice .modifier-control {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
 
-    #dice .modifier-control input {
-        width: 60px;
-    }
+  #dice .modifier-control input {
+    width: 60px;
+  }
 
-    #dice .button-group {
-        flex-direction: column;
-        align-items: center;
-    }
+  #dice .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    #dice .button-group button {
-        width: 100%;
-        justify-content: center;
-    }
+  #dice .button-group button {
+    width: 100%;
+    justify-content: center;
+  }
 
-    #dice #dice-dice-container {
-        gap: 10px;
-    }
+  #dice #dice-dice-container {
+    gap: 10px;
+  }
 
-    #dice .dice {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-    }
+  #dice .dice {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
 
-    #dice .history {
-        max-height: 300px;
-    }
+  #dice .history {
+    max-height: 300px;
+  }
 }
 
 @media (max-width: 480px) {
-    #dice .dice-selector {
-        flex-direction: column;
-        align-items: center;
-    }
+  #dice .dice-selector {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    #dice .dice-selector div {
-        flex-direction: row;
-        justify-content: center;
-    }
+  #dice .dice-selector div {
+    flex-direction: row;
+    justify-content: center;
+  }
 
-    #dice .modifier-control {
-        flex-direction: column;
-    }
+  #dice .modifier-control {
+    flex-direction: column;
+  }
 
-    #dice .modifier-control input {
-        width: 100%;
-    }
-}
+  #dice .modifier-control input {
+    width: 100%;
+  }
+  }
+  
+  #dice .color-customization {
+    margin-bottom: 20px;
+  }
+  
+  #dice .color-customization h3 {
+    color: var(--secondary);
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  #dice .color-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  
+  #dice .color-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background-color: var(--primary);
+    border: 1px solid var(--accent);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    box-shadow: var(--box-shadow);
+  }
+  
+  #dice .color-input label {
+    font-weight: bold;
+    color: var(--text);
+    font-size: 14px;
+  }
+  
+  #dice .color-input input[type="color"] {
+    width: 50px;
+    height: 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }

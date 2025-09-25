@@ -875,7 +875,7 @@ function generateMonster() {
     if (!window.monsters) {
         logger('encounters', 'generateMonster', 'Cargando datos de monstruos desde monsters.json');
         displayResult('encounters', 'Loading monsters data...');
-        fetch('./monsters.json')
+        fetch('./data/monsters.json')
             .then(response => response.json())
             .then(data => {
                 window.monsters = data;

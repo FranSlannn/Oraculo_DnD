@@ -88,13 +88,13 @@ translations = {
     'Large dragon, unaligned': 'Dragón grande, sin alineamiento'
 }
 
-with open('monsters.json', 'r', encoding='utf-8') as f:
+with open('data/monsters.json', 'r', encoding='utf-8') as f:
     content = f.read()
 
 for old, new in translations.items():
     content = content.replace(old, new)
 
-with open('monsters.json', 'w', encoding='utf-8') as f:
+with open('data/monsters.json', 'w', encoding='utf-8') as f:
     f.write(content)
 
 print("Traducciones aplicadas exitosamente.")
